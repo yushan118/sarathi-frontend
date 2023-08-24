@@ -2,6 +2,12 @@ import Toast from "@/components/Toast";
 import { Metadata } from "next";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
+import Header from "@/components/header/Header";
+import { Public_Sans } from "next/font/google";
+import Footer from "@/components/Footer";
+import ScrollbarWidthCSSVariable from "@/components/ScrollbarWidthCSSVariable";
+
+const public_sans = Public_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Sarathi",
@@ -14,11 +20,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
-        {children}
-        <Toast />
-      </body>
-    </html>
+    <>
+      <html lang="en">
+        <body className={public_sans.className}>
+          <Header />
+          {children}
+          <Footer />
+          <Toast />
+        </body>
+      </html>
+
+      {/* External effects */}
+      <ScrollbarWidthCSSVariable />
+    </>
   );
 }
