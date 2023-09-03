@@ -3,6 +3,7 @@ import LatestNews1Image from "@/../public/images-temp/latest-news/news-1.jpeg";
 import LatestNews2Image from "@/../public/images-temp/latest-news/news-2.jpeg";
 import LatestNews3Image from "@/../public/images-temp/latest-news/news-3.jpeg";
 import LatestNewsCoverImage from "@/../public/images-temp/latest-news/cover.jpeg";
+import Actions from "./Actions";
 
 function NewsEntry(props: {
   image: string;
@@ -67,7 +68,7 @@ function LatestNews() {
 
 function NewsCoverImage() {
   return (
-    <div className="basis-[60%]">
+    <div className="mt-10 basis-[60%]">
       <Image src={LatestNewsCoverImage} alt="News Cover" />
     </div>
   );
@@ -75,8 +76,11 @@ function NewsCoverImage() {
 
 export default async function News() {
   return (
-    <div className="flex flex-col-reverse items-center justify-center gap-10 lg:flex-row">
-      <LatestNews />
+    <div className="flex flex-col-reverse items-start justify-center gap-10 lg:flex-row">
+      <div className="flex flex-col gap-6">
+        <Actions />
+        <LatestNews />
+      </div>
       <NewsCoverImage />
     </div>
   );
