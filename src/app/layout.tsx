@@ -22,7 +22,9 @@ export default function RootLayout({
   return (
     <>
       <html lang="en">
-        <body className={public_sans.className}>
+        <body
+          className={`${public_sans.className} flex min-h-[100dvh] flex-col`}
+        >
           <Header />
           {children}
           <Footer />
