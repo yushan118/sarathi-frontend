@@ -31,6 +31,6 @@ export const drawerItems: { title: string; href: string }[] = [
 
   {
     title: "Book Now",
-    href: "#",
+    href: "/book",
   },
 ];

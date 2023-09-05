@@ -1,5 +1,6 @@
 import { IoMdCall } from "react-icons/io";
 import { GrStatusInfo } from "react-icons/gr";
+import Link from "next/link";
 
 export default async function Actions() {
   return (
@@ -9,10 +10,13 @@ export default async function Actions() {
         <div className="block h-[6px] w-[90%] bg-[#FF5C00D4] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" />
       </div>
       <div className="flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:gap-8">
-        <button className="flex flex-col items-center justify-center gap-2 rounded-md border border-gray-300 p-8 transition-colors hover:border-gray-500 sm:w-[250px]">
+        <Link
+          href="/book"
+          className="flex flex-col items-center justify-center gap-2 rounded-md border border-gray-300 p-8 transition-colors hover:border-gray-500 sm:w-[250px]"
+        >
           <IoMdCall size={40} color="red" />
           Call an Ambulance
-        </button>
+        </Link>
         <button className="flex flex-col items-center justify-center gap-2 rounded-md border border-gray-300 p-8 transition-colors hover:border-gray-500 sm:w-[250px]">
           <GrStatusInfo size={40} color="blue" />
           Track status of previously called Ambulance
