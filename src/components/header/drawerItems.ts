@@ -26,7 +26,7 @@ export const drawerItems: { title: string; href: string }[] = [
 
   {
     title: "Contact Us",
-    href: "#",
+    href: "/contact-us",
   },
 
   {
