@@ -17,10 +17,13 @@ export default async function Actions() {
           <IoMdCall size={40} color="red" />
           Call an Ambulance
         </Link>
-        <button className="flex flex-col items-center justify-center gap-2 rounded-md border border-gray-300 p-8 transition-colors hover:border-gray-500 sm:w-[250px]">
+        <Link
+          href="/ambulance-status"
+          className="flex flex-col items-center justify-center gap-2 rounded-md border border-gray-300 p-8 text-center transition-colors hover:border-gray-500 sm:w-[250px]"
+        >
           <GrStatusInfo size={40} color="blue" />
           Track status of previously called Ambulance
-        </button>
+        </Link>
       </div>
     </div>
   );
