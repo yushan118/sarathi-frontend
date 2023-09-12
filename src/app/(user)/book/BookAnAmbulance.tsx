@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function BookAnAmbulance() {
   return (
     <div className="m-auto flex max-w-[600px] flex-col items-center justify-center gap-4 rounded-3xl bg-[#E2DEDE] px-12 py-4">
@@ -49,9 +51,11 @@ export default function BookAnAmbulance() {
         <span className="font-bold">Location</span>: Your current device
         location
       </p>
-      <button className="my-4 rounded-3xl bg-[#DB0402] px-10 py-4 font-extrabold text-white">
-        Book Ambulance
-      </button>
+      <Link href="/ambulance-status/1">
+        <button className="my-4 rounded-3xl bg-[#DB0402] px-10 py-4 font-extrabold text-white">
+          Book Ambulance
+        </button>
+      </Link>
     </div>
   );
 }
