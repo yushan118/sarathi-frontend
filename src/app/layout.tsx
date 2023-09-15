@@ -2,9 +2,7 @@ import Toast from "@/components/Toast";
 import { Metadata } from "next";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
-import Header from "@/components/header/Header";
 import { Public_Sans } from "next/font/google";
-import Footer from "@/components/Footer";
 import ScrollbarWidthCSSVariable from "@/components/ScrollbarWidthCSSVariable";
 
 const public_sans = Public_Sans({ subsets: ["latin"] });
@@ -25,9 +23,7 @@ export default function RootLayout({
         <body
           className={`${public_sans.className} flex min-h-[100dvh] flex-col`}
         >
-          <Header />
           {children}
-          <Footer />
           <Toast />
         </body>
       </html>
