@@ -5,6 +5,7 @@ import Ambulance from "@/../public/images/ambulance.png";
 import EmergencyCall from "@/../public/images/emergency_call.png";
 import { RxDashboard } from "react-icons/rx";
 import { BiSolidHelpCircle } from "react-icons/bi";
+import { FaTrafficLight } from "react-icons/fa6";
 import MenuEntry, { IMenuEntry } from "./MenuEntry";
 
 const menuItems: IMenuEntry[] = [
@@ -17,6 +18,11 @@ const menuItems: IMenuEntry[] = [
     title: "Request Details",
     icon: <BiSolidHelpCircle size={20} />,
     href: "/dashboard/requests",
+  },
+  {
+    title: "Traffic Status",
+    icon: <FaTrafficLight size={20} />,
+    href: "/dashboard/traffic",
   },
 ];
 
