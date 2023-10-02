@@ -10,8 +10,8 @@ export const drawerItems: { title: string; href: string }[] = [
   },
 
   {
-    title: "Helpliness",
-    href: "#",
+    title: "Helplines",
+    href: "/helplines",
   },
 
   {
