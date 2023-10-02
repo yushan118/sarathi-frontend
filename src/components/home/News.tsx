@@ -4,8 +4,9 @@ import LatestNews2Image from "@/../public/images-temp/latest-news/news-2.jpeg";
 import LatestNews3Image from "@/../public/images-temp/latest-news/news-3.jpeg";
 import LatestNewsCoverImage from "@/../public/images-temp/latest-news/cover.jpeg";
 import Actions from "./Actions";
+import Link from "next/link";
 
-function NewsEntry(props: {
+export function NewsEntry(props: {
   image: string;
   title: string;
   shortInfo: string;
@@ -13,16 +14,20 @@ function NewsEntry(props: {
 }) {
   return (
     <div className="flex items-center justify-center gap-6">
-      <Image
-        src={props.image}
-        alt={props.title}
-        width={0}
-        height={0}
-        sizes={"100%"}
-        className="aspect-video h-auto w-[240px] rounded-2xl object-cover shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25),_0px_4px_4px_0px_rgba(0,0,0,0.25),_0px_4px_4px_0px_rgba(0,0,0,0.25)]"
-      />
+      <Link href="/news/1">
+        <Image
+          src={props.image}
+          alt={props.title}
+          width={0}
+          height={0}
+          sizes={"100%"}
+          className="aspect-video h-auto w-[240px] rounded-2xl object-cover shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25),_0px_4px_4px_0px_rgba(0,0,0,0.25),_0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+        />
+      </Link>
       <div className="text-sm">
-        <h2 className="font-bold">{props.title}</h2>
+        <Link href="/news/1">
+          <h2 className="font-bold hover:underline">{props.title}</h2>
+        </Link>
         <p className="font-light">{props.shortInfo}</p>
         <p className="mt-2 text-xs font-semibold">
           {props.date.toDateString()}
@@ -58,9 +63,11 @@ function LatestNews() {
           shortInfo="simply dummy text of the printing.text of the printing.text of the printing."
           date={new Date("2023-01-01")}
         />
-        <button className="w-max rounded-2xl bg-[#DC0000] px-7 py-1 text-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-          View More
-        </button>
+        <Link href="/news">
+          <button className="w-max rounded-2xl bg-[#DC0000] px-7 py-1 text-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+            View More
+          </button>
+        </Link>
       </div>
     </div>
   );

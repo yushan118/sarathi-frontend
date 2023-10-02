@@ -6,7 +6,7 @@ export const drawerItems: { title: string; href: string }[] = [
 
   {
     title: "In the news",
-    href: "#",
+    href: "/news",
   },
 
   {
