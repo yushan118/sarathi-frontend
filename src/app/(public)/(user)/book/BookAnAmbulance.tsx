@@ -1,6 +1,13 @@
-import Link from "next/link";
+import { redirectWithCurrentCallbackUrl } from "@/helper/auth";
+import { getAuthenticatedUser } from "@/serverActions/auth";
+import AddBookingForm from "./Form";
 
-export default function BookAnAmbulance() {
+export default async function BookAnAmbulance() {
+  const user = await getAuthenticatedUser();
+  if (!user) {
+    return redirectWithCurrentCallbackUrl("/signin");
+  }
+
   return (
     <div className="m-auto flex max-w-[600px] flex-col items-center justify-center gap-4 rounded-3xl bg-[#E2DEDE] px-12 py-4">
       <svg
@@ -40,22 +47,7 @@ export default function BookAnAmbulance() {
         One click and Ambulance comes right in front of the door for your
         serivce.
       </p>
-      <div className="flex items-center justify-center">
-        <p className="rounded-l-xl bg-gray-200 px-5 py-3 pr-3">+977</p>
-        <input
-          className="rounded-r-xl py-3 pl-3 outline-none"
-          placeholder="Your Mobile Number"
-        />
-      </div>
-      <p>
-        <span className="font-bold">Location</span>: Your current device
-        location
-      </p>
-      <Link href="/ambulance-status/1">
-        <button className="my-4 rounded-3xl bg-[#DB0402] px-10 py-4 font-extrabold text-white">
-          Book Ambulance
-        </button>
-      </Link>
+      <AddBookingForm defaultContactNumber={user.mobileNumber} />
     </div>
   );
 }

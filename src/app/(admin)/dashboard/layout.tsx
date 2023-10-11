@@ -1,11 +1,18 @@
+import { getAuthenticatedAdminUser } from "@/serverActions/auth";
 import AdminInfo from "./AdminInfo";
 import AdminMenu from "./AdminMenu";
+import { redirect } from "next/navigation";
 
-export default function AdminDashboardLayout({
+export default async function AdminDashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const adminUser = await getAuthenticatedAdminUser();
+  if (!adminUser) {
+    redirect("/signin-admin");
+  }
+
   return (
     <div className="flex h-[100dvh]">
       <AdminMenu className="h-full w-[350px]" />

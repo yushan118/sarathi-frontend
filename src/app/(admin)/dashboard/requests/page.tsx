@@ -2,23 +2,22 @@ import RequestEntry, { IRequestEntry } from "./RequestEntry";
 import LiveMap from "@/../public/images-temp/live-map/map.png";
 import LiveMapIcons from "@/../public/images-temp/live-map/icons.png";
 import Image from "next/image";
+import { cookies } from "next/headers";
 
-const requests: IRequestEntry[] = [
-  {
-    user: "Lilly",
-    location: "Location1",
-  },
-  {
-    user: "Billy",
-    location: "Location2",
-  },
-  {
-    user: "Foobar",
-    location: "Location3",
-  },
-];
+export default async function AdminRequestsPage() {
+  const cookieStore = cookies();
+  const requestsListRes = await fetch(`${process.env.API_URL}/bookings/all`, {
+    headers: {
+      Authorization: cookieStore.get("AUTH_ADMIN_TOKEN")?.value || "",
+    },
+  });
+  const requestsList = await requestsListRes.json();
+  const requests: IRequestEntry[] = requestsList.map((r: any) => ({
+    id: r._id,
+    user: r.user.name,
+    location: r.location,
+  }));
 
-export default function AdminRequestsPage() {
   return (
     <main className="flex flex-col justify-center gap-8">
       <ul className="list-disc">

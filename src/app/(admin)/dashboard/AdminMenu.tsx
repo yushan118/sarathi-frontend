@@ -7,6 +7,7 @@ import { RxDashboard } from "react-icons/rx";
 import { BiSolidHelpCircle } from "react-icons/bi";
 import { FaTrafficLight } from "react-icons/fa6";
 import MenuEntry, { IMenuEntry } from "./MenuEntry";
+import LogoutButton from "./LogoutButton";
 
 const menuItems: IMenuEntry[] = [
   {
@@ -54,9 +55,7 @@ export default function AdminMenu({ className }: { className?: string }) {
           Book Now
         </button>
       </div>
-      <button className="rounded-full bg-[#FF5757] px-8 py-2 text-xl font-bold text-white">
-        Log Out
-      </button>
+      <LogoutButton />
     </header>
   );
 }

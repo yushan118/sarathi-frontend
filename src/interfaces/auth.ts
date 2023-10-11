@@ -3,3 +3,9 @@ export interface IUser {
   name: string;
   mobileNumber: string;
 }
+
+export interface IAdminUser {
+  id: string;
+  name: string;
+  email: string;
+}

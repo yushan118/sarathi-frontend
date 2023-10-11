@@ -6,30 +6,40 @@ import { FaAmbulance } from "react-icons/fa";
 
 import Image from "next/image";
 import MapLiveLocation from "@/../public/images-temp/map-location.png";
+import { cookies } from "next/headers";
 
-export default function AdminDashboardPage() {
+export default async function AdminDashboardPage() {
+  const cookieStore = cookies();
+
+  const dashboardDataRes = await fetch(`${process.env.API_URL}/dashboard`, {
+    headers: {
+      Authorization: cookieStore.get("AUTH_ADMIN_TOKEN")?.value || "",
+    },
+  });
+  const dashboardData = await dashboardDataRes.json();
+
   return (
     <main className="flex items-start justify-center gap-5">
       {/* Metrics */}
       <div className="flex flex-wrap justify-center gap-6">
         <AdminMetricEntry
           title="Number of Request"
-          value={620}
+          value={dashboardData.bookings_count}
           change={15}
           icon={<BiSolidHelpCircle size={40} />}
           className="w-[300px]"
         />
         <AdminMetricEntry
           title="Total Client"
-          value={1400}
+          value={dashboardData.users_count}
           change={10}
           icon={<FaUser size={40} />}
           className="w-[300px]"
         />
         <AdminMetricEntry
           title="Total Assigned / Completed"
-          value={1300}
-          change={-3.5}
+          value={0}
+          change={0}
           icon={<FaAmbulance size={40} />}
           className="w-[300px]"
         />

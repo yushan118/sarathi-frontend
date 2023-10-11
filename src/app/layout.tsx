@@ -5,7 +5,11 @@ import "./globals.css";
 import { Public_Sans } from "next/font/google";
 import ScrollbarWidthCSSVariable from "@/components/ScrollbarWidthCSSVariable";
 import InitializeAuthenticatedUser from "@/components/InitializeAuthStore";
-import { getAuthenticatedUser } from "@/serverActions/auth";
+import InitializeAuthenticatedAdminUser from "@/components/InitializeAdminAuthStore";
+import {
+  getAuthenticatedUser,
+  getAuthenticatedAdminUser,
+} from "@/serverActions/auth";
 import CookieProviderWrapper from "@/components/CookieProviderWrapper";
 
 const public_sans = Public_Sans({ subsets: ["latin"] });
@@ -21,18 +25,21 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const user = await getAuthenticatedUser();
+  const adminUser = await getAuthenticatedAdminUser();
 
   return (
     <>
       <html lang="en">
         <CookieProviderWrapper>
           <InitializeAuthenticatedUser user={user}>
-            <body
-              className={`${public_sans.className} flex min-h-[100dvh] flex-col`}
-            >
-              {children}
-              <Toast />
-            </body>
+            <InitializeAuthenticatedAdminUser adminUser={adminUser}>
+              <body
+                className={`${public_sans.className} flex min-h-[100dvh] flex-col`}
+              >
+                {children}
+                <Toast />
+              </body>
+            </InitializeAuthenticatedAdminUser>
           </InitializeAuthenticatedUser>
         </CookieProviderWrapper>
       </html>

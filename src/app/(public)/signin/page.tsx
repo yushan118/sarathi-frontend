@@ -2,7 +2,7 @@
 
 import { AuthContext } from "@/components/InitializeAuthStore";
 import { login } from "@/serverActions/auth";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -46,6 +46,7 @@ function Form() {
 
   function PasswordInput() {
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -63,7 +64,7 @@ function Form() {
 
       if (loginResponse.success) {
         await userContext.update();
-        router.replace("/");
+        router.replace(searchParams.get("redirect") || "/");
       }
     }
 

@@ -6,6 +6,7 @@ import { BiSolidUser } from "react-icons/bi";
 import { AuthContext } from "../InitializeAuthStore";
 import { logout } from "@/serverActions/auth";
 import { toast } from "react-toastify";
+import { AdminAuthContext } from "../InitializeAdminAuthStore";
 
 function AccountLogin() {
   return (
@@ -20,6 +21,7 @@ function AccountLogin() {
 
 export default function Account() {
   const userContext = useContext(AuthContext);
+  const adminUserContext = useContext(AdminAuthContext);
 
   return (
     <div className="flex items-center justify-end gap-2">
@@ -35,6 +37,7 @@ export default function Account() {
               });
               await logout();
               await userContext.update();
+              await adminUserContext.update();
             }}
             className="text-xs"
           >
