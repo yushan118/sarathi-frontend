@@ -38,6 +38,7 @@ export async function getAuthenticatedUser(): Promise<IUser | undefined> {
 export async function login(mobile_number: string, password: string) {
   try {
     const loginRes = await fetch(process.env.API_URL! + "/auth/login", {
+      cache: "no-cache",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
