@@ -16,6 +16,7 @@
     "@types/react-dom": "18.2.7",
     "@types/react-icons": "^3.0.0",
     "autoprefixer": "10.4.15",
+    "dayjs": "^1.11.10",
     "eslint": "8.47.0",
     "eslint-config-next": "^14.0.3",
     "eslint-plugin-next": "^0.0.0",
