@@ -15,7 +15,8 @@ export default async function AdminRequestsPage() {
   const requests: IRequestEntry[] = requestsList.map((r: any) => ({
     id: r._id,
     user: r.user.name,
-    location: r.location,
+    lat: r.lat,
+    lng: r.lng,
   }));
 
   return (

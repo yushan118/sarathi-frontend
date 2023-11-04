@@ -2,7 +2,11 @@
 
 import { cookies } from "next/headers";
 
-export async function addBooking(contact_number: string, location: string) {
+export async function addBooking(
+  contact_number: string,
+  lat: number,
+  lng: number,
+) {
   const cookieStore = cookies();
   const addBookingRes = await fetch(`${process.env.API_URL}/bookings/add`, {
     method: "POST",
@@ -12,7 +16,8 @@ export async function addBooking(contact_number: string, location: string) {
     },
     body: JSON.stringify({
       contact_number,
-      location,
+      lat,
+      lng,
     }),
   });
   if (!addBookingRes.ok) {

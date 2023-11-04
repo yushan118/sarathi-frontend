@@ -3,7 +3,12 @@
 import { toast } from "react-toastify";
 import { addBooking } from "./serverActions";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { useGeolocated } from "react-geolocated";
+import "leaflet/dist/leaflet.css";
+import MarkerIcon from "leaflet/dist/images/marker-icon.png";
+import L from "leaflet";
 
 export default function AddBookingForm({
   defaultContactNumber,
@@ -13,12 +18,66 @@ export default function AddBookingForm({
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
+  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
+    useGeolocated({
+      positionOptions: {
+        enableHighAccuracy: false,
+      },
+      userDecisionTimeout: 5000,
+    });
+
+  function GeolocationInformation() {
+    if (!isGeolocationAvailable)
+      return <p>Your browser does not support Geolocation</p>;
+    if (!isGeolocationEnabled) return <p>Geolocation is not enabled</p>;
+    return null;
+  }
+
+  const [markerCoord, setMarkerCoord] = useState<{ lat: number; lng: number }>({
+    lat: 0,
+    lng: 0,
+  });
+  useEffect(() => {
+    if (!coords) {
+      return;
+    }
+    setMarkerCoord({ lat: coords?.latitude, lng: coords?.longitude });
+  }, [coords]);
+
+  function DraggableMarker() {
+    const markerRef = useRef<L.Marker>(null);
+    const eventHandlers = {
+      dragend() {
+        const marker = markerRef.current;
+        if (marker != null) {
+          const coord = marker.getLatLng();
+          setMarkerCoord({ lat: coord.lat, lng: coord.lng });
+        }
+      },
+    };
+
+    const marker = L.icon({ iconUrl: MarkerIcon.src });
+
+    return (
+      <Marker
+        draggable
+        eventHandlers={eventHandlers}
+        position={markerCoord}
+        ref={markerRef}
+        icon={marker}
+      />
+    );
+  }
+
   async function handleFormSubmit(formData: FormData) {
     const contact_number = formData.get("contact_number") as string;
-    const location = formData.get("location") as string;
 
     setIsLoading(true);
-    const addBookingResponse = await addBooking(contact_number, location);
+    const addBookingResponse = await addBooking(
+      contact_number,
+      markerCoord.lat,
+      markerCoord.lng,
+    );
     setIsLoading(false);
     if (!addBookingResponse.success) {
       toast(addBookingResponse.message, { type: "error" });
@@ -45,12 +104,21 @@ export default function AddBookingForm({
       </div>
       <div className="flex flex-col items-center justify-center">
         <p className="font-bold">Location:</p>
-        <input
-          placeholder="Enter the location of emergency"
-          type="text"
-          className="border border-gray-400 p-1 outline-none"
-          name="location"
-        />
+        <GeolocationInformation />
+        {coords && (
+          <MapContainer
+            center={{ lat: coords.latitude, lng: coords.longitude }}
+            zoom={13}
+            scrollWheelZoom={false}
+            className="h-[300px] w-[600px]"
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <DraggableMarker />
+          </MapContainer>
+        )}
       </div>
       <button
         className="my-4 flex flex-col items-center justify-center gap-1 rounded-3xl bg-[#DB0402] px-10 py-4 font-extrabold text-white disabled:opacity-30"
