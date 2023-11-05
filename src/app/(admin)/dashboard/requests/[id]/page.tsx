@@ -3,7 +3,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import dayjs from "dayjs";
-import Map from "./Map";
+import Map from "../_components/Map";
 
 function DetailsEntry({
   details1,
@@ -36,6 +36,7 @@ export default async function RequestDetailsPage({
   const requestDetails = await fetch(
     `${process.env.API_URL}/bookings/${params.id}`,
     {
+      cache: "no-cache",
       headers: {
         Authorization: cookieStore.get("AUTH_ADMIN_TOKEN")?.value || "",
       },
@@ -49,7 +50,10 @@ export default async function RequestDetailsPage({
   const locationInfo: {
     address: { road: string; suburb: string; town: string; county: string };
   } = await fetch(
-    `https://geocode.maps.co/reverse?lat=${requestDetails[0].lat}&lon=${requestDetails[0].lng}`,
+    `https://geocode.maps.co/reverse?lat=${requestDetails.lat}&lon=${requestDetails.lng}`,
+    {
+      cache: "no-cache",
+    },
   ).then((res) => res.json());
 
   return (
@@ -61,12 +65,16 @@ export default async function RequestDetailsPage({
 
       <div className="flex flex-wrap gap-10">
         <DetailsEntry
-          details1={`Name: ${requestDetails[0].user.name}`}
-          details2={`Contact no: ${requestDetails[0].contact_number}`}
+          details1={`Name: ${requestDetails.user.name}`}
+          details2={`Contact no: ${requestDetails.contact_number}`}
         />
         <DetailsEntry
-          details1={`Address: ${locationInfo.address.road}, ${locationInfo.address.suburb}, ${locationInfo.address.town}, ${locationInfo.address.county}`}
-          details2={`Created at: ${dayjs(requestDetails[0].createdAt).format(
+          details1={`Address: ${locationInfo.address.road || ""}, ${
+            locationInfo.address.suburb || ""
+          }, ${locationInfo.address.town || ""}, ${
+            locationInfo.address.county || ""
+          }`}
+          details2={`Created at: ${dayjs(requestDetails.createdAt).format(
             "DD/MM/YYYY hh:mm:ss A",
           )}`}
         />
@@ -77,7 +85,10 @@ export default async function RequestDetailsPage({
       </div>
 
       <div className="self-center">
-        <Map lat={requestDetails[0].lat} lng={requestDetails[0].lng} />
+        <Map
+          coord={[{ lat: requestDetails.lat, lng: requestDetails.lng }]}
+          zoom={13}
+        />
       </div>
     </main>
   );

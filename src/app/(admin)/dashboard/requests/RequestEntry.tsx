@@ -21,9 +21,9 @@ export default async function RequestEntry({
   return (
     <li className="hover:underline">
       <Link href={`requests/${entry.id}`}>
-        {entry.user} requested for ambulance at {locationInfo.address.road},{" "}
-        {locationInfo.address.suburb}, {locationInfo.address.town},{" "}
-        {locationInfo.address.county}
+        {entry.user} requested for ambulance at{" "}
+        {locationInfo.address.road || ""}, {locationInfo.address.suburb || ""},{" "}
+        {locationInfo.address.town || ""}, {locationInfo.address.county || ""}
       </Link>
     </li>
   );

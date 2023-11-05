@@ -1,12 +1,11 @@
 import RequestEntry, { IRequestEntry } from "./RequestEntry";
-import LiveMap from "@/../public/images-temp/live-map/map.png";
-import LiveMapIcons from "@/../public/images-temp/live-map/icons.png";
-import Image from "next/image";
 import { cookies } from "next/headers";
+import Map from "./_components/Map";
 
 export default async function AdminRequestsPage() {
   const cookieStore = cookies();
   const requestsListRes = await fetch(`${process.env.API_URL}/bookings/all`, {
+    cache: "no-cache",
     headers: {
       Authorization: cookieStore.get("AUTH_ADMIN_TOKEN")?.value || "",
     },
@@ -27,11 +26,9 @@ export default async function AdminRequestsPage() {
         ))}
       </ul>
       <div className="relative self-center">
-        <Image src={LiveMap} alt="Live Map" />
-        <Image
-          src={LiveMapIcons}
-          alt="Live Map Icons"
-          className="absolute left-0 top-12"
+        <Map
+          coord={requests.map((r) => ({ lat: r.lat, lng: r.lng }))}
+          zoom={11}
         />
       </div>
     </main>
