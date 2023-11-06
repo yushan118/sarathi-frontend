@@ -4,6 +4,8 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import dayjs from "dayjs";
 import Map from "../_components/Map";
+import { bookingStatuses } from "@/constants/booking";
+import ApproveBtn from "./ApproveBtn";
 
 function DetailsEntry({
   details1,
@@ -37,6 +39,9 @@ export default async function RequestDetailsPage({
     `${process.env.API_URL}/bookings/${params.id}`,
     {
       cache: "no-cache",
+      next: {
+        tags: ["request-details"],
+      },
       headers: {
         Authorization: cookieStore.get("AUTH_ADMIN_TOKEN")?.value || "",
       },
@@ -79,10 +84,17 @@ export default async function RequestDetailsPage({
           )}`}
         />
         <DetailsEntry
-          details1="Status: Approved"
-          details2="Sent to Ambulance Driver"
+          details1={`Status: ${requestDetails.status}`}
+          details2={
+            bookingStatuses.find((s) => s.value == requestDetails.status)
+              ?.info || ""
+          }
         />
       </div>
+
+      {requestDetails.status == bookingStatuses[0].value && (
+        <ApproveBtn id={params.id} />
+      )}
 
       <div className="self-center">
         <Map
