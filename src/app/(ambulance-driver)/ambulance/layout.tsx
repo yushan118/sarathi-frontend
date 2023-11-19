@@ -1,11 +1,18 @@
+import { getAuthenticatedAmbulanceUser } from "@/serverActions/auth";
 import DriverInfo from "./DriverInfo";
 import DriverMenu from "./DriverMenu";
+import { redirect } from "next/navigation";
 
-export default function AdminDashboardLayout({
+export default async function AmbulanceDashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const ambulanceUser = await getAuthenticatedAmbulanceUser();
+  if (!ambulanceUser) {
+    redirect("/signin-ambulance");
+  }
+
   return (
     <div className="flex h-[100dvh]">
       <DriverMenu className="h-full w-[350px]" />

@@ -22,7 +22,7 @@ export default async function AdminRequestsPage() {
     <main className="flex flex-col justify-center gap-8">
       <ul className="list-disc">
         {requests.map((request) => (
-          <RequestEntry key={request.user} entry={request} />
+          <RequestEntry key={request.id} entry={request} subHref="requests" />
         ))}
       </ul>
       <div className="relative self-center">

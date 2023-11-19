@@ -9,3 +9,9 @@ export interface IAdminUser {
   name: string;
   email: string;
 }
+
+export interface IAmbulanceUser {
+  id: string;
+  name: string;
+  mobileNumber: string;
+}

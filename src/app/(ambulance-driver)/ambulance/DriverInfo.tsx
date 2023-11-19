@@ -1,7 +1,10 @@
 import Image from "next/image";
 import PublicAvatar from "@/../public/images/public_avatar.png";
+import { getAuthenticatedAmbulanceUser } from "@/serverActions/auth";
 
-export default function DriverInfo() {
+export default async function DriverInfo() {
+  const ambulanceUser = await getAuthenticatedAmbulanceUser();
+
   return (
     <div className="flex items-center gap-3">
       <Image
@@ -11,8 +14,8 @@ export default function DriverInfo() {
         alt="Avatar"
       />
       <div className="flex flex-col gap-1">
-        <p className="text-2xl text-[#54657E]">Foo Bar</p>
-        <p>Position: Driver</p>
+        <p className="text-2xl text-[#54657E]">{ambulanceUser?.name}</p>
+        <p>Position: Ambulance Driver</p>
       </div>
     </div>
   );

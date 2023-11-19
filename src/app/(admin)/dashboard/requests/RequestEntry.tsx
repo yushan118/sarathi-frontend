@@ -9,8 +9,10 @@ export interface IRequestEntry {
 
 export default async function RequestEntry({
   entry,
+  subHref,
 }: {
   entry: IRequestEntry;
+  subHref: string;
 }) {
   const locationInfo: {
     address: { road: string; suburb: string; town: string; county: string };
@@ -20,7 +22,7 @@ export default async function RequestEntry({
 
   return (
     <li className="hover:underline">
-      <Link href={`requests/${entry.id}`}>
+      <Link href={`${subHref}/${entry.id}`}>
         {entry.user} requested for ambulance at{" "}
         {locationInfo.address.road || ""}, {locationInfo.address.suburb || ""},{" "}
         {locationInfo.address.town || ""}, {locationInfo.address.county || ""}
