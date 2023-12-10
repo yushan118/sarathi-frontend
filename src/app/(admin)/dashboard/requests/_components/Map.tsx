@@ -16,12 +16,18 @@ export default function Map({
 }) {
   const marker = L.icon({ iconUrl: MarkerIcon.src });
 
+  if (coord.length == 0) {
+    return (
+      <p>No requests available</p>
+    );
+  }
+
   return (
     <MapContainer
       center={
         centerAtCity
           ? { lat: 27.7172, lng: 85.324 }
-          : { lat: coord[0].lat, lng: coord[0].lng }
+          : { lat: coord.at(0)?.lat || 0, lng: coord.at(0)?.lng || 0 }
       }
       zoom={zoom}
       scrollWheelZoom={false}

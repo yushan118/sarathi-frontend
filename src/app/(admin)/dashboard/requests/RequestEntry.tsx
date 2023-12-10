@@ -18,7 +18,9 @@ export default async function RequestEntry({
     address: { road: string; suburb: string; town: string; county: string };
   } = await fetch(
     `https://geocode.maps.co/reverse?lat=${entry.lat}&lon=${entry.lng}`,
-  ).then((res) => res.json());
+    ).then((res) => {
+      return res.json()
+    });
 
   return (
     <li className="hover:underline">
