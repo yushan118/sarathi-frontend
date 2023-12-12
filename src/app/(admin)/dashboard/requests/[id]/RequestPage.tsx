@@ -77,11 +77,15 @@ export default async function RequestPage({
           details2={`Contact no: ${requestDetails.contact_number}`}
         />
         <DetailsEntry
-          details1={`Address: ${locationInfo.address.road || ""}, ${
-            locationInfo.address.suburb || ""
-          }, ${locationInfo.address.town || ""}, ${
-            locationInfo.address.county || ""
-          }`}
+          details1={`Address: ${
+            locationInfo.address.road ? locationInfo.address.road + ", " : ""
+          }${
+            locationInfo.address.suburb
+              ? locationInfo.address.suburb + ", "
+              : ""
+          }${
+            locationInfo.address.town ? locationInfo.address.town + ", " : ""
+          }${locationInfo.address.county || ""}`}
           details2={`Created at: ${dayjs(requestDetails.createdAt).format(
             "DD/MM/YYYY hh:mm:ss A",
           )}`}
