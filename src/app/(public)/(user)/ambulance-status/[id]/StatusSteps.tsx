@@ -1,3 +1,6 @@
+import { bookingStatuses } from "@/constants/booking";
+import { cookies } from "next/headers";
+
 function StepEntry({ info, checked }: { info: string; checked?: boolean }) {
   return (
     <div className="flex items-center gap-2">
@@ -22,14 +25,31 @@ function StepEntry({ info, checked }: { info: string; checked?: boolean }) {
   );
 }
 
-export default function StatusSteps() {
+export default async function StatusSteps({ id }: { id: string }) {
+  const cookieStore = cookies();
+  const requestDetails = await fetch(`${process.env.API_URL}/bookings/${id}`, {
+    cache: "no-cache",
+    next: {
+      tags: ["request-details"],
+    },
+    headers: {
+      Authorization: cookieStore.get("AUTH_ADMIN_TOKEN")?.value || "",
+    },
+  }).then((res) => res.json());
+
+  const currentBookingStatusIdx = bookingStatuses.findIndex(
+    (s) => s.value == requestDetails.status,
+  );
+
   return (
     <div className="flex flex-col gap-2 bg-[#DFDBDB] p-4">
-      <StepEntry checked info="Received by admins and ambulance driver" />
-      <StepEntry checked info="Reveived by the admin" />
-      <StepEntry info="Reviewed by the ambulance driver" />
-      <StepEntry info="Notified by Traffic Police" />
-      <StepEntry info="Ambulance on it's way" />
+      {bookingStatuses.map((s, idx) => (
+        <StepEntry
+          key={s.id}
+          info={s.value}
+          checked={idx <= currentBookingStatusIdx}
+        />
+      ))}
     </div>
   );
 }
