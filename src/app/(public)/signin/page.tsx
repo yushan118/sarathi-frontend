@@ -2,6 +2,7 @@
 
 import { AuthContext } from "@/components/InitializeAuthStore";
 import { login } from "@/serverActions/auth";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useContext, useState } from "react";
 import { toast } from "react-toastify";
@@ -124,6 +125,9 @@ export default function SignIn() {
     <main className="container flex flex-grow flex-col items-center justify-center py-8">
       <div className="flex w-max flex-col gap-2 rounded-md bg-gray-100 p-8">
         <Form />
+        <Link href="/signup" className="w-max text-sm hover:underline">
+          Register here
+        </Link>
       </div>
     </main>
   );
