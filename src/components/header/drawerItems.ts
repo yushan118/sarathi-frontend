@@ -20,8 +20,8 @@ export const drawerItems: { title: string; href: string }[] = [
   },
 
   {
-    title: "About Us",
-    href: "#",
+    title: "Traffic Status",
+    href: "/traffic",
   },
 
   {
