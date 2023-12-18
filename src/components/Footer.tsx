@@ -70,9 +70,12 @@ function ReachUs() {
 function SubFooter() {
   return (
     <div className="bg-white">
-      <div className="container mx-auto flex flex-col items-center justify-between bg-white py-1 text-sm font-semibold text-black md:flex-row">
-        <p>&copy; 2023 SARATHI. All rights reversed.</p>
-        <div className="flex items-center gap-3">
+      <div className="container mx-auto grid grid-cols-1 bg-white py-1 text-sm font-semibold text-black md:grid-cols-3">
+        <div />
+        <p className="flex items-center justify-center">
+          &copy; 2023 SARATHI. All rights reversed.
+        </p>
+        <div className="flex items-center justify-center gap-3 md:justify-end">
           <p>Follow us on</p>
           <div className="flex gap-2">
             <MdFacebook size={20} color="#1877F2" />
