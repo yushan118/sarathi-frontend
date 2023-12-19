@@ -37,8 +37,15 @@ export default async function AdminDashboardPage() {
           className="w-[300px]"
         />
         <AdminMetricEntry
-          title="Total Assigned / Completed"
-          value={0}
+          title="Total Assigned"
+          value={dashboardData.assigned_count}
+          change={0}
+          icon={<FaAmbulance size={40} />}
+          className="w-[300px]"
+        />
+        <AdminMetricEntry
+          title="Total Completed"
+          value={dashboardData.completed_count}
           change={0}
           icon={<FaAmbulance size={40} />}
           className="w-[300px]"
