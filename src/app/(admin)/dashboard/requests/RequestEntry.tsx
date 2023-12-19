@@ -18,16 +18,19 @@ export default async function RequestEntry({
     address: { road: string; suburb: string; town: string; county: string };
   } = await fetch(
     `https://geocode.maps.co/reverse?lat=${entry.lat}&lon=${entry.lng}`,
-    ).then((res) => {
-      return res.json()
-    });
+  ).then(async (res) => {
+    const json = await res.json();
+    return json;
+  });
 
   return (
     <li className="hover:underline">
       <Link href={`${subHref}/${entry.id}`}>
         {entry.user} requested for ambulance at{" "}
-        {locationInfo.address.road || ""}, {locationInfo.address.suburb || ""},{" "}
-        {locationInfo.address.town || ""}, {locationInfo.address.county || ""}
+        {locationInfo.address.road ? locationInfo.address.road + ", " : ""}
+        {locationInfo.address.suburb ? locationInfo.address.suburb + ", " : ""}
+        {locationInfo.address.town ? locationInfo.address.town + ", " : ""}
+        {locationInfo.address.county || ""}
       </Link>
     </li>
   );
