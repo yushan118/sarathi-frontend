@@ -19,6 +19,8 @@ export const metadata: Metadata = {
   description: "Your Trusted Ambulance Booking Service",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function RootLayout({
   children,
 }: {
