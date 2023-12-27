@@ -72,7 +72,7 @@ export default async function RequestPage({
 
   return (
     <main className="flex flex-col justify-center gap-8">
-      <Link href="." className="flex w-max items-center gap-1 hover:underline">
+      <Link href=".." className="flex w-max items-center gap-1 hover:underline">
         <IoIosArrowBack />
         Back
       </Link>
@@ -110,6 +110,10 @@ export default async function RequestPage({
             bookingStatuses.find((s) => s.value == requestDetails.status)
               ?.info || ""
           }
+        />
+        <DetailsEntry
+          details1={`Case sensitivity: ${requestDetails.case_sensitivity}`}
+          details2={`Survival rate: ${requestDetails.survival_rate}`}
         />
       </div>
 

@@ -32,7 +32,11 @@ export async function acceptRequest(id: string) {
   revalidateTag("request-details");
 }
 
-export async function onTheWayRequest(id: string) {
+export async function onTheWayRequest(
+  id: string,
+  case_sensitivity: string,
+  survival_rate: string,
+) {
   await fetch(`${process.env.API_URL}/bookings/set-status`, {
     cache: "no-cache",
     method: "POST",
@@ -42,6 +46,8 @@ export async function onTheWayRequest(id: string) {
     body: JSON.stringify({
       id: id,
       status: "Ambulance on the way",
+      case_sensitivity,
+      survival_rate,
     }),
   }).then((res) => res.json());
   revalidateTag("request-details");
