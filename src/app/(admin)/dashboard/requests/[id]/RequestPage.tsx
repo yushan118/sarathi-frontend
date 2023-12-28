@@ -55,14 +55,20 @@ export default async function RequestPage({
     notFound();
   }
 
-  const locationInfo: {
-    address: { road: string; suburb: string; town: string; county: string };
-  } = await fetch(
-    `https://geocode.maps.co/reverse?lat=${requestDetails.lat}&lon=${requestDetails.lng}`,
-    {
-      cache: "no-cache",
-    },
-  ).then((res) => res.json());
+  let locationInfo:
+    | {
+        address: { road: string; suburb: string; town: string; county: string };
+      }
+    | undefined = undefined;
+
+  try {
+    locationInfo = await fetch(
+      `https://geocode.maps.co/reverse?lat=${requestDetails.lat}&lon=${requestDetails.lng}`,
+      {
+        cache: "no-cache",
+      },
+    ).then((res) => res.json());
+  } catch {}
 
   return (
     <main className="flex flex-col justify-center gap-8">
@@ -77,15 +83,23 @@ export default async function RequestPage({
           details2={`Contact no: ${requestDetails.contact_number}`}
         />
         <DetailsEntry
-          details1={`Address: ${
-            locationInfo.address.road ? locationInfo.address.road + ", " : ""
-          }${
-            locationInfo.address.suburb
-              ? locationInfo.address.suburb + ", "
+          details1={
+            locationInfo
+              ? `Address: ${
+                  locationInfo.address.road
+                    ? locationInfo.address.road + ", "
+                    : ""
+                }${
+                  locationInfo.address.suburb
+                    ? locationInfo.address.suburb + ", "
+                    : ""
+                }${
+                  locationInfo.address.town
+                    ? locationInfo.address.town + ", "
+                    : ""
+                }${locationInfo.address.county || ""}`
               : ""
-          }${
-            locationInfo.address.town ? locationInfo.address.town + ", " : ""
-          }${locationInfo.address.county || ""}`}
+          }
           details2={`Created at: ${dayjs(requestDetails.createdAt).format(
             "DD/MM/YYYY hh:mm:ss A",
           )}`}
