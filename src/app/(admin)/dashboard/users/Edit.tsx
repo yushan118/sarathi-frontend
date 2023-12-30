@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import { deleteUser } from "./server-actions";
+import { deleteUser, editUser } from "./server-actions";
 
 export default function UserEdit({
   _id,
@@ -32,7 +32,16 @@ export default function UserEdit({
     },
   });
 
-  const { execute, status } = useAction(deleteUser, {
+  const { execute, status } = useAction(editUser, {
+    onSuccess: () => {
+      toast.success("User edited successfully!");
+    },
+    onError: () => {
+      toast.error("Something went wrong!");
+    },
+  });
+
+  const { execute: executeDelete } = useAction(deleteUser, {
     onSuccess: () => {
       toast.success("User removed successfully!");
       setExpand(false);
@@ -59,9 +68,11 @@ export default function UserEdit({
             name="name"
             render={({ field, fieldState }) => (
               <div className="flex flex-col gap-2">
-                <p>
-                  <span className="font-bold">Name</span>: {field.value}
-                </p>
+                <input
+                  {...field}
+                  placeholder="Name"
+                  className="rounded-sm border border-gray-400 px-2 py-1 outline-none"
+                />
                 {fieldState.error && (
                   <p className="text-sm text-red-500">
                     {fieldState.error.message}
@@ -75,9 +86,11 @@ export default function UserEdit({
             name="phone_number"
             render={({ field, fieldState }) => (
               <div className="flex flex-col gap-2">
-                <p>
-                  <span className="font-bold">Phone</span>: {field.value}
-                </p>
+                <input
+                  {...field}
+                  placeholder="Phone Number"
+                  className="rounded-sm border border-gray-400 px-2 py-1 outline-none"
+                />
                 {fieldState.error && (
                   <p className="text-sm text-red-500">
                     {fieldState.error.message}
@@ -90,7 +103,13 @@ export default function UserEdit({
             <button
               disabled={status == "executing"}
               className="disabled:text-gray-400"
-              onClick={() => execute({ id: _id })}
+            >
+              Update
+            </button>
+            <button
+              disabled={status == "executing"}
+              className="disabled:text-gray-400"
+              onClick={() => executeDelete({ id: _id })}
             >
               Delete
             </button>
