@@ -6,7 +6,7 @@ import EmergencyCall from "@/../public/images/emergency_call.png";
 import { RxDashboard } from "react-icons/rx";
 import { BiSolidHelpCircle } from "react-icons/bi";
 import { FaTrafficLight } from "react-icons/fa6";
-import { FaAmbulance } from "react-icons/fa";
+import { FaAmbulance, FaUser } from "react-icons/fa";
 import MenuEntry, { IMenuEntry } from "./MenuEntry";
 import LogoutButton from "./LogoutButton";
 
@@ -25,6 +25,11 @@ const menuItems: IMenuEntry[] = [
     title: "Traffic Status",
     icon: <FaTrafficLight size={20} />,
     href: "/dashboard/traffic",
+  },
+  {
+    title: "Users",
+    icon: <FaUser size={20} />,
+    href: "/dashboard/users",
   },
   {
     title: "Ambulance Drivers",
