@@ -10,12 +10,14 @@ export default function AdminMetricEntry({
   icon,
   value,
   change,
+  href,
   className,
 }: {
   title: string;
   icon: React.ReactNode;
   value: number;
   change: number;
+  href: string;
   className?: string;
 }) {
   return (
@@ -46,7 +48,7 @@ export default function AdminMetricEntry({
       <div className="flex flex-col items-center justify-between">
         {icon}
         <Link
-          href="#"
+          href={href}
           className="whitespace-nowrap text-sm text-[#5041BC] hover:underline"
         >
           View More

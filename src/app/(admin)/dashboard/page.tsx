@@ -27,6 +27,7 @@ export default async function AdminDashboardPage() {
           value={dashboardData.bookings_count}
           change={15}
           icon={<BiSolidHelpCircle size={40} />}
+          href="/dashboard/requests"
           className="w-[300px]"
         />
         <AdminMetricEntry
@@ -34,6 +35,7 @@ export default async function AdminDashboardPage() {
           value={dashboardData.users_count}
           change={10}
           icon={<FaUser size={40} />}
+          href="/dashboard/users"
           className="w-[300px]"
         />
         <AdminMetricEntry
@@ -41,6 +43,7 @@ export default async function AdminDashboardPage() {
           value={dashboardData.assigned_count}
           change={0}
           icon={<FaAmbulance size={40} />}
+          href="/dashboard/requests"
           className="w-[300px]"
         />
         <AdminMetricEntry
@@ -48,6 +51,7 @@ export default async function AdminDashboardPage() {
           value={dashboardData.completed_count}
           change={0}
           icon={<FaAmbulance size={40} />}
+          href="/dashboard/requests"
           className="w-[300px]"
         />
       </div>

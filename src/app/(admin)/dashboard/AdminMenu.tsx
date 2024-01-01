@@ -22,11 +22,6 @@ const menuItems: IMenuEntry[] = [
     href: "/dashboard/requests",
   },
   {
-    title: "Traffic Status",
-    icon: <FaTrafficLight size={20} />,
-    href: "/dashboard/traffic",
-  },
-  {
     title: "Users",
     icon: <FaUser size={20} />,
     href: "/dashboard/users",

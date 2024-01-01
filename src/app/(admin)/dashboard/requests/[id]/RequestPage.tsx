@@ -79,7 +79,7 @@ export default async function RequestPage({
 
       <div className="flex flex-wrap gap-10">
         <DetailsEntry
-          details1={`Name: ${requestDetails.user.name}`}
+          details1={`Name: ${requestDetails.user?.name || "[Deleted User]"}`}
           details2={`Contact no: ${requestDetails.contact_number}`}
         />
         <DetailsEntry

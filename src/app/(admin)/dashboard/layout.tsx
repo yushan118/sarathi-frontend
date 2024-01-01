@@ -14,8 +14,8 @@ export default async function AdminDashboardLayout({
   }
 
   return (
-    <div className="flex h-[100dvh]">
-      <AdminMenu className="h-full w-[350px]" />
+    <div className="flex min-h-[100dvh]">
+      <AdminMenu className="sticky top-0 h-full min-h-[100dvh] shrink-0 grow-0 basis-[300px]" />
 
       <div className="flex flex-grow flex-col gap-10 p-8">
         <div className="flex items-center justify-between">

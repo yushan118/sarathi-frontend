@@ -13,7 +13,7 @@ export default async function AdminRequestsPage() {
   const requestsList = await requestsListRes.json();
   const requests: IRequestEntry[] = requestsList.map((r: any) => ({
     id: r._id,
-    user: r.user.name,
+    user: r.user?.name || "[Deleted User]",
     lat: r.lat,
     lng: r.lng,
   }));
