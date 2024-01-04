@@ -77,7 +77,7 @@ export default async function RequestPage({
         Back
       </Link>
 
-      <div className="flex flex-wrap gap-10">
+      <div className="flex flex-wrap justify-center gap-10">
         <DetailsEntry
           details1={`Name: ${requestDetails.user?.name || "[Deleted User]"}`}
           details2={`Contact no: ${requestDetails.contact_number}`}
@@ -110,6 +110,10 @@ export default async function RequestPage({
             bookingStatuses.find((s) => s.value == requestDetails.status)
               ?.info || ""
           }
+        />
+        <DetailsEntry
+          details1={`Case sensitivity: ${requestDetails.case_sensitivity}`}
+          details2={`Survival rate: ${requestDetails.survival_rate}`}
         />
       </div>
 
