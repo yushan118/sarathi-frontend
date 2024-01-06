@@ -2,6 +2,7 @@ export interface IUser {
   id: string;
   name: string;
   mobileNumber: string;
+  isSuspended: boolean;
 }
 
 export interface IAdminUser {

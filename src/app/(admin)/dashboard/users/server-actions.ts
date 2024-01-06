@@ -27,13 +27,20 @@ export const editUser = action(
   },
 );
 
-export const deleteUser = action(
+export const suspendUser = action(
   z.object({
     id: z.string(),
+    action: z.enum(["suspend", "unsuspend"]),
   }),
   async (input) => {
     await fetchWithAuth(`/user/${input.id}`, "ADMIN_", {
-      method: "DELETE",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        action: input.action,
+      }),
     });
     revalidateTag("users-list");
   },

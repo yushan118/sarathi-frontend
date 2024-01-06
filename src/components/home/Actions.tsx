@@ -1,8 +1,18 @@
+"use client";
+
 import { IoMdCall } from "react-icons/io";
 import { GrStatusInfo } from "react-icons/gr";
 import Link from "next/link";
+import { AuthContext } from "@/components/InitializeAuthStore";
+import { useContext } from "react";
 
-export default async function Actions() {
+export default function Actions() {
+  const userContext = useContext(AuthContext);
+
+  if (userContext.user?.isSuspended) {
+    return null;
+  }
+
   return (
     <div className="flex flex-col items-center justify-center gap-6">
       <div className="flex w-max flex-col items-center justify-center">

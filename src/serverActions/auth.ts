@@ -29,6 +29,7 @@ export async function getAuthenticatedUser(): Promise<IUser | undefined> {
       id: currentUser._id,
       name: currentUser.name,
       mobileNumber: currentUser.mobile_number,
+      isSuspended: currentUser.is_suspended,
     };
   } catch (error) {
     return undefined;

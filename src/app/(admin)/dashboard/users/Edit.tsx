@@ -6,16 +6,19 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import { deleteUser, editUser } from "./server-actions";
+import { suspendUser, editUser } from "./server-actions";
+import { twMerge } from "tailwind-merge";
 
 export default function UserEdit({
   _id,
   name,
   mobile_number,
+  is_suspended,
 }: {
   _id: string;
   name: string;
   mobile_number: string;
+  is_suspended: boolean;
 }) {
   const [expand, setExpand] = useState(false);
 
@@ -41,10 +44,9 @@ export default function UserEdit({
     },
   });
 
-  const { execute: executeDelete } = useAction(deleteUser, {
+  const { execute: executeSuspend } = useAction(suspendUser, {
     onSuccess: () => {
-      toast.success("User removed successfully!");
-      setExpand(false);
+      toast.success("User edited successfully!");
     },
     onError: () => {
       toast.error("Something went wrong!");
@@ -53,7 +55,10 @@ export default function UserEdit({
 
   return (
     <>
-      <li className="cursor-pointer" onClick={() => setExpand((cur) => !cur)}>
+      <li
+        className={twMerge("cursor-pointer", is_suspended && "text-red-500")}
+        onClick={() => setExpand((cur) => !cur)}
+      >
         {name} - {mobile_number}
       </li>
       {expand && (
@@ -103,15 +108,22 @@ export default function UserEdit({
             <button
               disabled={status == "executing"}
               className="disabled:text-gray-400"
+              type="submit"
             >
               Update
             </button>
             <button
               disabled={status == "executing"}
               className="disabled:text-gray-400"
-              onClick={() => executeDelete({ id: _id })}
+              onClick={(e) => {
+                e.preventDefault();
+                executeSuspend({
+                  id: _id,
+                  action: is_suspended ? "unsuspend" : "suspend",
+                });
+              }}
             >
-              Delete
+              {is_suspended ? "Unsuspend" : "Suspend"}
             </button>
           </div>
         </form>
