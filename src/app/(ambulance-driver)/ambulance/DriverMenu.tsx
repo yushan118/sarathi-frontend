@@ -1,3 +1,5 @@
+"use client";
+
 import Title from "@/components/Title";
 import { twMerge } from "tailwind-merge";
 import Image from "next/image";
@@ -5,6 +7,11 @@ import Ambulance from "@/../public/images/ambulance.png";
 import EmergencyCall from "@/../public/images/emergency_call.png";
 import { BiSolidHelpCircle } from "react-icons/bi";
 import MenuEntry, { IMenuEntry } from "./MenuEntry";
+import { logout } from "@/serverActions/auth";
+import { AmbulanceAuthContext } from "@/components/InitializeAmbulanceAuthStore";
+import { useContext } from "react";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const menuItems: IMenuEntry[] = [
   {
@@ -15,6 +22,9 @@ const menuItems: IMenuEntry[] = [
 ];
 
 export default function DriverMenu({ className }: { className?: string }) {
+  const ambulanceDriverContext = useContext(AmbulanceAuthContext);
+  const router = useRouter();
+
   return (
     <header
       className={twMerge(
@@ -42,7 +52,18 @@ export default function DriverMenu({ className }: { className?: string }) {
           Book Now
         </button>
       </div>
-      <button className="rounded-full bg-[#FF5757] px-8 py-2 text-xl font-bold text-white">
+      <button
+        className="rounded-full bg-[#FF5757] px-8 py-2 text-xl font-bold text-white"
+        onClick={async () => {
+          toast("Logged out successfully", {
+            type: "success",
+            position: "bottom-right",
+          });
+          await logout();
+          await ambulanceDriverContext.update();
+          router.replace("/signin-ambulance");
+        }}
+      >
         Log Out
       </button>
     </header>

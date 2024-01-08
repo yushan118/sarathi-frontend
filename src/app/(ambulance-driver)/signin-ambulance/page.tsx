@@ -2,6 +2,7 @@
 
 import { AmbulanceAuthContext } from "@/components/InitializeAmbulanceAuthStore";
 import { loginAmbulance } from "@/serverActions/auth";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { toast } from "react-toastify";
@@ -53,6 +54,13 @@ export default function SignIn() {
           required
           className="border border-gray-400 p-1 outline-none"
         />
+
+        <Link
+          href="/signin-ambulance/forgot-password"
+          className="self-start text-xs"
+        >
+          Forgot password?
+        </Link>
 
         {isLoading ? (
           <svg
