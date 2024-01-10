@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { z } from "zod";
 import { suspendUser, editUser } from "./server-actions";
 import { twMerge } from "tailwind-merge";
+import Link from "next/link";
 
 export default function UserEdit({
   _id,
@@ -125,6 +126,14 @@ export default function UserEdit({
             >
               {is_suspended ? "Unsuspend" : "Suspend"}
             </button>
+            <Link
+              href={`/user/${mobile_number}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="col-span-2 text-center"
+            >
+              <button type="button">View profile</button>
+            </Link>
           </div>
         </form>
       )}

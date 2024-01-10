@@ -14,7 +14,7 @@ export default async function UsersPage() {
 
   return (
     <div>
-      <ol className="list-disc">
+      <ol className="list-disc w-max">
         {usersList.map((d) => (
           <UserEdit
             key={d._id}
