@@ -1,55 +1,71 @@
 import Link from "next/link";
+import dayjs from "dayjs";
 
 export interface IRequestEntry {
   id: string;
   user: string;
+  userMobile: string;
   lat: number;
   lng: number;
+  createdAt: string;
+  updatedAt: string;
+  status: string;
 }
 
-export default async function RequestEntry({
-  entry,
-  subHref,
-}: {
-  entry: IRequestEntry;
-  subHref: string;
-}) {
-  let locationInfo:
-    | {
-        address: { road: string; suburb: string; town: string; county: string };
-      }
-    | undefined = undefined;
+function formatDateString(inputDateString: string) {
+  return dayjs(inputDateString).format("DD/MM/YYYY hh:mm:ss A");
+}
 
-  try {
-    locationInfo = await fetch(
-      `https://geocode.maps.co/reverse?lat=${entry.lat}&lon=${entry.lng}`,
-    ).then(async (res) => {
-      const json = await res.json();
-      return json;
-    });
-  } catch {}
-
-  if (!locationInfo) {
-    return (
-      <li className="hover:underline">
-        <Link href={`${subHref}/${entry.id}`}>
-          {entry.user} requested for ambulance
-        </Link>
-      </li>
-    );
-  }
-
+function BookingRow({ entry }: { entry: IRequestEntry }) {
   return (
-    <li className="hover:underline">
-      <Link href={`${subHref}/${entry.id}`}>
-        {entry.user} requested for ambulance at{" "}
-        {locationInfo?.address?.road ? locationInfo.address.road + ", " : ""}
-        {locationInfo?.address?.suburb
-          ? locationInfo.address.suburb + ", "
-          : ""}
-        {locationInfo?.address?.town ? locationInfo.address.town + ", " : ""}
-        {locationInfo?.address?.county || ""}
-      </Link>
-    </li>
+    <tr>
+      <td>
+        <Link
+          href={`/user/${entry.userMobile}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:underline"
+        >
+          {entry.user}
+        </Link>
+      </td>
+      <td>{formatDateString(entry.createdAt)}</td>
+      <td>{formatDateString(entry.updatedAt)}</td>
+      <td>{entry.status}</td>
+      <td>
+        <Link
+          href={`/dashboard/requests/${entry.id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:underline"
+        >
+          View Details
+        </Link>
+      </td>
+    </tr>
+  );
+}
+
+export default function RequestEntry({
+  entries,
+}: {
+  entries: IRequestEntry[];
+}) {
+  return (
+    <table className="min-w-full text-left text-sm font-light">
+      <thead className="border-b font-medium dark:border-neutral-500">
+        <tr>
+          <th>User</th>
+          <th>Ordered at</th>
+          <th>Last updated at</th>
+          <th>Current status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {entries.map((entry) => (
+          <BookingRow key={entry.id} entry={entry} />
+        ))}
+      </tbody>
+    </table>
   );
 }

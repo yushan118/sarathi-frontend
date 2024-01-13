@@ -1,5 +1,3 @@
-
-
 import RequestEntry, { IRequestEntry } from "./RequestEntry";
 
 export default async function List({
@@ -9,9 +7,7 @@ export default async function List({
 }) {
   return (
     <ul className="list-disc">
-      {requests.map((request) => (
-        <RequestEntry key={request.id} entry={request} subHref="requests" />
-      ))}
+      <RequestEntry entries={requests} />
     </ul>
   );
 }

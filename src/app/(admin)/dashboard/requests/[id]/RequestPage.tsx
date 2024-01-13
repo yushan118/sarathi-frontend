@@ -63,7 +63,7 @@ export default async function RequestPage({
 
   try {
     locationInfo = await fetch(
-      `https://geocode.maps.co/reverse?lat=${requestDetails.lat}&lon=${requestDetails.lng}`,
+      `https://geocode.maps.co/reverse?api_key=${process.env.NEXT_PUBLIC_GEOCODE_API_KEY}&lat=${requestDetails.lat}&lon=${requestDetails.lng}`,
       {
         cache: "no-cache",
       },

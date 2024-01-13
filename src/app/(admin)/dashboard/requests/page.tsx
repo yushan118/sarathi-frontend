@@ -14,17 +14,17 @@ export default async function AdminRequestsPage() {
   const requests: IRequestEntry[] = requestsList.map((r: any) => ({
     id: r._id,
     user: r.user?.name || "[Deleted User]",
+    userMobile: r.user?.mobile_number || "",
     lat: r.lat,
     lng: r.lng,
+    createdAt: r.createdAt,
+    updatedAt: r.updatedAt,
+    status: r.status,
   }));
 
   return (
     <main className="flex flex-col justify-center gap-8">
-      <ul className="list-disc">
-        {requests.map((request) => (
-          <RequestEntry key={request.id} entry={request} subHref="requests" />
-        ))}
-      </ul>
+      <RequestEntry entries={requests} subHref="requests" />
       <div className="relative self-center">
         <Map
           coord={requests.map((r) => ({ lat: r.lat, lng: r.lng }))}
