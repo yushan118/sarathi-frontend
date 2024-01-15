@@ -14,17 +14,25 @@ export default async function UsersPage() {
 
   return (
     <div>
-      <ol className="list-disc w-max">
-        {usersList.map((d) => (
-          <UserEdit
-            key={d._id}
-            _id={d._id}
-            name={d.name}
-            mobile_number={d.mobile_number}
-            is_suspended={d.is_suspended}
-          />
-        ))}
-      </ol>
+      <table className="text-left">
+        <thead className="border-b font-medium dark:border-neutral-500">
+          <tr>
+            <th>Name</th>
+            <th>Mobile Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          {usersList.map((d) => (
+            <UserEdit
+              key={d._id}
+              _id={d._id}
+              name={d.name}
+              mobile_number={d.mobile_number}
+              is_suspended={d.is_suspended}
+            />
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

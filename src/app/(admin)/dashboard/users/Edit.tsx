@@ -56,86 +56,93 @@ export default function UserEdit({
 
   return (
     <>
-      <li
+      <tr
         className={twMerge("cursor-pointer", is_suspended && "text-red-500")}
         onClick={() => setExpand((cur) => !cur)}
       >
-        {name} - {mobile_number}
-      </li>
+        <td className="pr-8">{name}</td>
+        <td>{mobile_number}</td>
+        <td>
+          <Link
+            href={`/user/${mobile_number}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="col-span-2 pl-8 text-center"
+          >
+            <button type="button">View profile</button>
+          </Link>
+        </td>
+      </tr>
       {expand && (
-        <form
-          className="mb-4 mt-2 flex w-[200px] flex-col gap-2"
-          onSubmit={handleSubmit((data) => {
-            execute({ id: _id, ...data });
-          })}
-        >
-          <Controller
-            control={control}
-            name="name"
-            render={({ field, fieldState }) => (
-              <div className="flex flex-col gap-2">
-                <input
-                  {...field}
-                  placeholder="Name"
-                  className="rounded-sm border border-gray-400 px-2 py-1 outline-none"
-                />
-                {fieldState.error && (
-                  <p className="text-sm text-red-500">
-                    {fieldState.error.message}
-                  </p>
+        <tr>
+          <td colSpan={3}>
+            <form
+              className="mb-4 mt-2 flex w-[200px] flex-col gap-2"
+              onSubmit={handleSubmit((data) => {
+                execute({ id: _id, ...data });
+              })}
+            >
+              <Controller
+                control={control}
+                name="name"
+                render={({ field, fieldState }) => (
+                  <div className="flex flex-col gap-2">
+                    <input
+                      {...field}
+                      placeholder="Name"
+                      className="rounded-sm border border-gray-400 px-2 py-1 outline-none"
+                    />
+                    {fieldState.error && (
+                      <p className="text-sm text-red-500">
+                        {fieldState.error.message}
+                      </p>
+                    )}
+                  </div>
                 )}
-              </div>
-            )}
-          />
-          <Controller
-            control={control}
-            name="phone_number"
-            render={({ field, fieldState }) => (
-              <div className="flex flex-col gap-2">
-                <input
-                  {...field}
-                  placeholder="Phone Number"
-                  className="rounded-sm border border-gray-400 px-2 py-1 outline-none"
-                />
-                {fieldState.error && (
-                  <p className="text-sm text-red-500">
-                    {fieldState.error.message}
-                  </p>
+              />
+              <Controller
+                control={control}
+                name="phone_number"
+                render={({ field, fieldState }) => (
+                  <div className="flex flex-col gap-2">
+                    <input
+                      {...field}
+                      placeholder="Phone Number"
+                      className="rounded-sm border border-gray-400 px-2 py-1 outline-none"
+                    />
+                    {fieldState.error && (
+                      <p className="text-sm text-red-500">
+                        {fieldState.error.message}
+                      </p>
+                    )}
+                  </div>
                 )}
+              />
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  disabled={status == "executing"}
+                  className="disabled:text-gray-400"
+                  type="submit"
+                >
+                  Update
+                </button>
+                <button
+                  disabled={status == "executing"}
+                  className="disabled:text-gray-400"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    executeSuspend({
+                      id: _id,
+                      action: is_suspended ? "unsuspend" : "suspend",
+                    });
+                  }}
+                >
+                  {is_suspended ? "Unsuspend" : "Suspend"}
+                </button>
               </div>
-            )}
-          />
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              disabled={status == "executing"}
-              className="disabled:text-gray-400"
-              type="submit"
-            >
-              Update
-            </button>
-            <button
-              disabled={status == "executing"}
-              className="disabled:text-gray-400"
-              onClick={(e) => {
-                e.preventDefault();
-                executeSuspend({
-                  id: _id,
-                  action: is_suspended ? "unsuspend" : "suspend",
-                });
-              }}
-            >
-              {is_suspended ? "Unsuspend" : "Suspend"}
-            </button>
-            <Link
-              href={`/user/${mobile_number}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="col-span-2 text-center"
-            >
-              <button type="button">View profile</button>
-            </Link>
-          </div>
-        </form>
+            </form>
+          </td>
+        </tr>
       )}
     </>
   );
