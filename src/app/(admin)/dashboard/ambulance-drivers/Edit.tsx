@@ -53,68 +53,73 @@ export default function DriverEdit({
 
   return (
     <>
-      <li className="cursor-pointer" onClick={() => setExpand((cur) => !cur)}>
-        {name} - {mobile_number}
-      </li>
+      <tr className={"cursor-pointer"} onClick={() => setExpand((cur) => !cur)}>
+        <td className="pr-8">{name}</td>
+        <td>{mobile_number}</td>
+      </tr>
       {expand && (
-        <form
-          className="mb-4 mt-2 flex w-[200px] flex-col gap-2"
-          onSubmit={handleSubmit((data) => {
-            execute({ id: _id, ...data });
-          })}
-        >
-          <Controller
-            control={control}
-            name="name"
-            render={({ field, fieldState }) => (
-              <div className="flex flex-col gap-2">
-                <input
-                  {...field}
-                  placeholder="Name"
-                  className="rounded-sm border border-gray-400 px-2 py-1 outline-none"
-                />
-                {fieldState.error && (
-                  <p className="text-sm text-red-500">
-                    {fieldState.error.message}
-                  </p>
-                )}
-              </div>
-            )}
-          />
-          <Controller
-            control={control}
-            name="phone_number"
-            render={({ field, fieldState }) => (
-              <div className="flex flex-col gap-2">
-                <input
-                  {...field}
-                  placeholder="Phone Number"
-                  className="rounded-sm border border-gray-400 px-2 py-1 outline-none"
-                />
-                {fieldState.error && (
-                  <p className="text-sm text-red-500">
-                    {fieldState.error.message}
-                  </p>
-                )}
-              </div>
-            )}
-          />
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              disabled={status == "executing"}
-              className="disabled:text-gray-400"
+        <tr>
+          <td colSpan={3}>
+            <form
+              className="mb-4 mt-2 flex w-[200px] flex-col gap-2"
+              onSubmit={handleSubmit((data) => {
+                execute({ id: _id, ...data });
+              })}
             >
-              Update
-            </button>
-            <button
-              disabled={status == "executing"}
-              className="disabled:text-gray-400"
-              onClick={() => executeDelete({ id: _id })}
-            >
-              Delete
-            </button>
-          </div>
-        </form>
+              <Controller
+                control={control}
+                name="name"
+                render={({ field, fieldState }) => (
+                  <div className="flex flex-col gap-2">
+                    <input
+                      {...field}
+                      placeholder="Name"
+                      className="rounded-sm border border-gray-400 px-2 py-1 outline-none"
+                    />
+                    {fieldState.error && (
+                      <p className="text-sm text-red-500">
+                        {fieldState.error.message}
+                      </p>
+                    )}
+                  </div>
+                )}
+              />
+              <Controller
+                control={control}
+                name="phone_number"
+                render={({ field, fieldState }) => (
+                  <div className="flex flex-col gap-2">
+                    <input
+                      {...field}
+                      placeholder="Phone Number"
+                      className="rounded-sm border border-gray-400 px-2 py-1 outline-none"
+                    />
+                    {fieldState.error && (
+                      <p className="text-sm text-red-500">
+                        {fieldState.error.message}
+                      </p>
+                    )}
+                  </div>
+                )}
+              />
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  disabled={status == "executing"}
+                  className="disabled:text-gray-400"
+                >
+                  Update
+                </button>
+                <button
+                  disabled={status == "executing"}
+                  className="disabled:text-gray-400"
+                  onClick={() => executeDelete({ id: _id })}
+                >
+                  Delete
+                </button>
+              </div>
+            </form>
+          </td>
+        </tr>
       )}
     </>
   );

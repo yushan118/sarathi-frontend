@@ -12,16 +12,24 @@ export default async function AmbulanceDriversPage() {
   return (
     <div>
       <CreateDriver />
-      <ol className="list-disc">
-        {driversList.map((d) => (
-          <DriverEdit
-            key={d._id}
-            _id={d._id}
-            name={d.name}
-            mobile_number={d.mobile_number}
-          />
-        ))}
-      </ol>
+      <table className="text-left">
+        <thead className="border-b font-medium dark:border-neutral-500">
+          <tr>
+            <th>Name</th>
+            <th>Mobile Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          {driversList.map((d) => (
+            <DriverEdit
+              key={d._id}
+              _id={d._id}
+              name={d.name}
+              mobile_number={d.mobile_number}
+            />
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
