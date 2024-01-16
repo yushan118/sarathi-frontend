@@ -16,7 +16,15 @@ function formatDateString(inputDateString: string) {
   return dayjs(inputDateString).format("DD/MM/YYYY hh:mm:ss A");
 }
 
-function BookingRow({ entry }: { entry: IRequestEntry }) {
+function BookingRow({
+  entry,
+  hideCurrentStatus,
+  subHref,
+}: {
+  entry: IRequestEntry;
+  hideCurrentStatus?: boolean;
+  subHref: string;
+}) {
   return (
     <tr>
       <td>
@@ -31,10 +39,10 @@ function BookingRow({ entry }: { entry: IRequestEntry }) {
       </td>
       <td>{formatDateString(entry.createdAt)}</td>
       <td>{formatDateString(entry.updatedAt)}</td>
-      <td>{entry.status}</td>
+      {!hideCurrentStatus && <td>{entry.status}</td>}
       <td>
         <Link
-          href={`/dashboard/requests/${entry.id}`}
+          href={`${subHref}/${entry.id}`}
           target="_blank"
           rel="noopener noreferrer"
           className="hover:underline"
@@ -48,8 +56,12 @@ function BookingRow({ entry }: { entry: IRequestEntry }) {
 
 export default function RequestEntry({
   entries,
+  hideCurrentStatus,
+  subHref,
 }: {
   entries: IRequestEntry[];
+  hideCurrentStatus?: boolean;
+  subHref: string;
 }) {
   return (
     <table className="min-w-full text-left text-sm font-light">
@@ -58,12 +70,17 @@ export default function RequestEntry({
           <th>User</th>
           <th>Ordered at</th>
           <th>Last updated at</th>
-          <th>Current status</th>
+          {!hideCurrentStatus && <th>Current status</th>}
         </tr>
       </thead>
       <tbody>
         {entries.map((entry) => (
-          <BookingRow key={entry.id} entry={entry} />
+          <BookingRow
+            key={entry.id}
+            entry={entry}
+            hideCurrentStatus={hideCurrentStatus}
+            subHref={subHref}
+          />
         ))}
       </tbody>
     </table>

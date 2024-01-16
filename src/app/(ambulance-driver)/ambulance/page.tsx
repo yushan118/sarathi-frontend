@@ -25,15 +25,11 @@ export default async function AdminRequestsPage() {
 
   return (
     <main className="flex flex-col justify-center gap-8">
-      <ul className="list-disc">
-        {requests.map((request) => (
-          <RequestEntry
-            key={request.id}
-            entry={request}
-            subHref="ambulance/request"
-          />
-        ))}
-      </ul>
+      <RequestEntry
+        entries={requests}
+        hideCurrentStatus
+        subHref="ambulance/request"
+      />
       <div className="relative self-center">
         <Map
           coord={requests.map((r) => ({ lat: r.lat, lng: r.lng }))}

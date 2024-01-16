@@ -5,9 +5,5 @@ export default async function List({
 }: {
   requests: IRequestEntry[];
 }) {
-  return (
-    <ul className="list-disc">
-      <RequestEntry entries={requests} />
-    </ul>
-  );
+  return <RequestEntry entries={requests} subHref="requests" />;
 }
