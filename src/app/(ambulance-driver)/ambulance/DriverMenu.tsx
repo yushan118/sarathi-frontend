@@ -6,6 +6,7 @@ import Image from "next/image";
 import Ambulance from "@/../public/images/ambulance.png";
 import EmergencyCall from "@/../public/images/emergency_call.png";
 import { BiSolidHelpCircle } from "react-icons/bi";
+import { TbFileReport } from "react-icons/tb";
 import MenuEntry, { IMenuEntry } from "./MenuEntry";
 import { logout } from "@/serverActions/auth";
 import { AmbulanceAuthContext } from "@/components/InitializeAmbulanceAuthStore";
@@ -18,6 +19,11 @@ const menuItems: IMenuEntry[] = [
     title: "Request Details",
     icon: <BiSolidHelpCircle size={20} />,
     href: "/ambulance",
+  },
+  {
+    title: "Requests Report",
+    icon: <TbFileReport size={20} />,
+    href: "/ambulance/report",
   },
 ];
 
