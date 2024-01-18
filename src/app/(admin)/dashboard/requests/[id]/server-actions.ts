@@ -17,7 +17,7 @@ export async function approveRequest(id: string) {
   revalidateTag("request-details");
 }
 
-export async function acceptRequest(id: string) {
+export async function acceptRequest(id: string, hospital: string) {
   await fetch(`${process.env.API_URL}/bookings/set-status`, {
     cache: "no-cache",
     method: "POST",
@@ -27,6 +27,7 @@ export async function acceptRequest(id: string) {
     body: JSON.stringify({
       id: id,
       status: "Accepted by ambulance",
+      hospital: hospital,
     }),
   }).then((res) => res.json());
   revalidateTag("request-details");

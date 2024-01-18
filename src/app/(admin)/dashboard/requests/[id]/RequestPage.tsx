@@ -115,6 +115,12 @@ export default async function RequestPage({
           details1={`Case sensitivity: ${requestDetails.case_sensitivity}`}
           details2={`Survival rate: ${requestDetails.survival_rate}`}
         />
+        {requestDetails.hospital && (
+          <DetailsEntry
+            details1={"Hospital assigned"}
+            details2={requestDetails.hospital}
+          />
+        )}
       </div>
 
       {viewer == "Admin" &&
