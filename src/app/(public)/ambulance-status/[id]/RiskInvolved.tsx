@@ -16,7 +16,6 @@ export async function RiskInvolved({ id }: { id: string }) {
   return (
     <RiskInvolvedClient
       id={id}
-      initialSurvivalRate={requestDetails.survival_rate}
       initialCaseSensitivity={requestDetails.case_sensitivity}
     />
   );

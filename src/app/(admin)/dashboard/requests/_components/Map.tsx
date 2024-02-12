@@ -47,9 +47,11 @@ export default function Map({
       for (let i = 0; i < coordWithHospital.length; i++) {
         routeControl.current.push(
           L.Routing.control({
+            // @ts-ignore
             router: new L.Routing.GraphHopper(
               "3ceae8b3-219c-4063-9493-b7eda9919939",
             ),
+            // @ts-ignore
             lineOptions: {
               styles: [
                 { color: "black", opacity: 0.15, weight: 9 },
@@ -66,6 +68,7 @@ export default function Map({
                   hospitals[coordWithHospital[i].hospital!][1],
                 ),
               ],
+              // @ts-ignore
               { createMarker: () => null },
             ),
           }).addTo(mapRef.current),
