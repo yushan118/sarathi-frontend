@@ -1,5 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import dayjs from "dayjs";
+import { useQueryState } from "nuqs";
+import { useEffect, useState } from "react";
 
 export interface IRequestEntry {
   id: string;
@@ -10,6 +14,7 @@ export interface IRequestEntry {
   createdAt: string;
   updatedAt: string;
   status: string;
+  hospital?: string;
 }
 
 function formatDateString(inputDateString: string) {
@@ -26,27 +31,18 @@ function BookingRow({
   subHref: string;
 }) {
   return (
-    <tr>
-      <td>
-        <Link
-          href={`/user/${entry.userMobile}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:underline"
-        >
+    <tr className="border-b-2 font-medium dark:border-[#E7E8EA]">
+      <td className="p-4">{entry.id}</td>
+      <td className="p-4">
+        <Link href={`/user/${entry.userMobile}`} className="hover:underline">
           {entry.user}
         </Link>
       </td>
-      <td>{formatDateString(entry.createdAt)}</td>
-      <td>{formatDateString(entry.updatedAt)}</td>
+      <td className="p-4">{formatDateString(entry.createdAt)}</td>
+      <td className="p-4">{formatDateString(entry.updatedAt)}</td>
       {!hideCurrentStatus && <td>{entry.status}</td>}
-      <td>
-        <Link
-          href={`${subHref}/${entry.id}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:underline"
-        >
+      <td className="p-4">
+        <Link href={`${subHref}/${entry.id}`} className="hover:underline">
           View Details
         </Link>
       </td>
@@ -63,18 +59,30 @@ export default function RequestEntry({
   hideCurrentStatus?: boolean;
   subHref: string;
 }) {
+  const [type] = useQueryState("type");
+
+  const [entriesToShow, setEntriesToShow] = useState<IRequestEntry[]>([]);
+
+  useEffect(() => {
+    setEntriesToShow((_cur) => {
+      if (!type) return entries;
+      return entries.filter((e) => e.status == type);
+    });
+  }, [type]);
+
   return (
-    <table className="min-w-full text-left text-sm font-light">
-      <thead className="border-b font-medium dark:border-neutral-500">
+    <table className="min-w-full border-2 border-[#E7E8EA] text-left text-sm font-light">
+      <thead className="border-b-2 font-medium dark:border-[#E7E8EA]">
         <tr>
-          <th>User</th>
-          <th>Ordered at</th>
-          <th>Last updated at</th>
+          <th className="p-4">ID</th>
+          <th className="p-4">User</th>
+          <th className="p-4">Ordered at</th>
+          <th className="p-4">Last updated at</th>
           {!hideCurrentStatus && <th>Current status</th>}
         </tr>
       </thead>
       <tbody>
-        {entries.map((entry) => (
+        {entriesToShow.map((entry) => (
           <BookingRow
             key={entry.id}
             entry={entry}

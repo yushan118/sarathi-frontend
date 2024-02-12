@@ -10,3 +10,7 @@
 .remove-arrow {
   -moz-appearance: textfield;
 }
+
+.leaflet-routing-container {
+  display: none;
+}

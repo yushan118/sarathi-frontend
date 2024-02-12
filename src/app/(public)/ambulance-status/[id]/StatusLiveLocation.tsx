@@ -17,7 +17,7 @@ export default async function StatusLiveLocation({ id }: { id: string }) {
     <div>
       <p className="text-center">Location map:</p>
       <Map
-        coord={[{ lat: requestDetails.lat, lng: requestDetails.lng }]}
+        coord={[{ lat: requestDetails.lat, lng: requestDetails.lng, hospital: requestDetails.hospital }]}
         zoom={13}
       />
     </div>

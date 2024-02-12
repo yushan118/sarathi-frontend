@@ -55,8 +55,6 @@ export default async function AdminDashboardPage() {
           className="w-[300px]"
         />
       </div>
-
-      <Image src={MapLiveLocation} alt="Live location" />
     </main>
   );
 }

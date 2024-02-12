@@ -57,8 +57,6 @@ async function Details({ mobile_number }: { mobile_number: string }) {
             <li key={b._id} className="hover:underline">
               <Link
                 href={`/ambulance-status/${b._id}`}
-                target="_blank"
-                rel="noopener noreferrer"
               >
                 Ordered ambulance at{" "}
                 {`${dayjs(b.createdAt).format("DD/MM/YYYY hh:mm:ss A")}`}

@@ -3,6 +3,7 @@ import StatusInfo from "./StatusInfo";
 import StatusLiveLocation from "./StatusLiveLocation";
 import StatusSteps from "./StatusSteps";
 import StatusTimeline from "./StatusTimeline";
+import UpdateSocket from "./UpdateSocket";
 
 export default function AmbulanceStatusIDPage({
   params,
@@ -16,6 +17,8 @@ export default function AmbulanceStatusIDPage({
       <RiskInvolved id={params.id} />
       <StatusTimeline id={params.id} />
       <StatusLiveLocation id={params.id} />
+
+      <UpdateSocket id={params.id} />
     </main>
   );
 }

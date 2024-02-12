@@ -15,9 +15,11 @@ function AboutUs() {
     <div className="flex flex-col items-center justify-start gap-3 md:items-start">
       <FooterSectionHeader title="About Us" />
       <p className="text-justify text-sm">
-        Elit aperiam beatae exercitationem at magnam aut modi. Repudiandae
-        soluta nihil maiores sequi voluptatum Quis ad beatae ut harum laborum
-        accusantium Officiis itaque nam id qui alias! Distinctio incidunt at
+        Welcome to Sarathi, your trusted companion in times of emergency. We are
+        a dedicated ambulance booking service committed to providing swift and
+        reliable assistance across Nepal. With a deep understanding of the
+        urgency in medical situations, we bridge the gap between patients and
+        healthcare facilities, ensuring timely transportation and care.
       </p>
     </div>
   );

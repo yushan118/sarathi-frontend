@@ -3,16 +3,19 @@
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { signupUser } from "./server-actions";
+import { sendOTP, signupUser } from "./server-actions";
 import { useAction } from "next-safe-action/hook";
 import { toast } from "react-toastify";
 import { login } from "@/serverActions/auth";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "@/components/InitializeAuthStore";
 import { useRouter } from "next/navigation";
 import { signupSchema } from "./types";
+import Image from "next/image";
+import OTPMobileImg from "@/../public/images/otp-mobile.png";
+import { twMerge } from "tailwind-merge";
 
-function Form() {
+function Form({ randomOTP }: { randomOTP: string }) {
   const userContext = useContext(AuthContext);
   const router = useRouter();
 
@@ -36,11 +39,16 @@ function Form() {
     },
   });
 
-  const onSubmit: SubmitHandler<z.infer<typeof signupSchema>> = async (
-    data,
-  ) => {
-    execute(data);
+  const { execute: executeOTP } = useAction(sendOTP);
+
+  const onSubmit: SubmitHandler<z.infer<typeof signupSchema>> = (data) => {
+    console.log(">>>> OTP:", randomOTP);
+    executeOTP({ otp: randomOTP, mobile_number: data.mobile_number });
+    setShowOTPPopup(true);
   };
+
+  const [showOTPPopup, setShowOTPPopup] = useState(false);
+  const [isIncorrectOTP, setIsIncorrectOTP] = useState(false);
 
   return (
     <>
@@ -151,15 +159,66 @@ function Form() {
         )}
         Sign up
       </button>
+
+      {/* OTP Popup */}
+      {showOTPPopup && (
+        <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-30">
+          <div className="bg-white p-8 drop-shadow-2xl">
+            <p className="text-center text-2xl">
+              OTP Sent to{" "}
+              <span className="font-bold">
+                +977 {getValues("mobile_number")}
+              </span>
+            </p>
+            <Image
+              src={OTPMobileImg}
+              alt="OTP"
+              width={200}
+              className="mx-auto"
+            />
+            <p className="mt-4">
+              Please confirm your mobile number by entering the OTP sent to your
+              phone:
+            </p>
+            <div className="flex w-full flex-col items-center justify-center">
+              <input
+                type="text"
+                className={twMerge(
+                  "mx-auto mt-2 w-[8ch] border border-gray-400 p-2 text-center font-mono text-2xl outline-none",
+                  isIncorrectOTP && "border-2 border-red-500",
+                )}
+                maxLength={6}
+                onChange={(e) => {
+                  const currentOTPInput = e.target.value;
+                  setIsIncorrectOTP(false);
+                  if (currentOTPInput.length == 6) {
+                    if (currentOTPInput == randomOTP) {
+                      execute(getValues());
+                      return;
+                    } else {
+                      setIsIncorrectOTP(true);
+                    }
+                  }
+                }}
+              />
+              {isIncorrectOTP && (
+                <p className="mt-2 font-bold text-red-500">Invalid OTP!</p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
 
 export default function SignUp() {
+  const randomOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
   return (
     <main className="container flex flex-grow flex-col items-center justify-center py-8">
       <div className="flex w-max flex-col gap-2 rounded-md bg-gray-100 p-8">
-        <Form />
+        <Form randomOTP={randomOTP} />
       </div>
     </main>
   );

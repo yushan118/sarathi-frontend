@@ -1,3 +1,4 @@
+import Overview from "./Overview";
 import StatusGraph from "./StatusGraph";
 import SurvivalRateLine from "./SurvivalRateLine";
 
@@ -8,6 +9,7 @@ export default async function RequestsReportPage() {
 
   return (
     <main>
+      <Overview bookingsList={bookingsList} />
       <StatusGraph bookingsList={bookingsList} />
       <SurvivalRateLine bookingsList={bookingsList} />
     </main>

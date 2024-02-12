@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { RiskValue } from "./RiskInvolvedClient";
 
 export async function updateCaseSensitivity(id: string, value: RiskValue) {
@@ -28,4 +29,8 @@ export async function updateSurvivalRate(id: string, value: RiskValue) {
       survival_rate: value,
     }),
   }).then((res) => res.json());
+}
+
+export async function revalidateBookingStatusPage(bookingId: string) {
+  revalidatePath(`/ambulance-status/${bookingId}`);
 }

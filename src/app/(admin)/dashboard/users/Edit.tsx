@@ -65,8 +65,6 @@ export default function UserEdit({
         <td>
           <Link
             href={`/user/${mobile_number}`}
-            target="_blank"
-            rel="noopener noreferrer"
             className="col-span-2 pl-8 text-center"
           >
             <button type="button">View profile</button>

@@ -1,6 +1,7 @@
 import RequestEntry, { IRequestEntry } from "./RequestEntry";
 import { cookies } from "next/headers";
 import Map from "./_components/Map";
+import RequestType from "./RequestType";
 
 export default async function AdminRequestsPage() {
   const cookieStore = cookies();
@@ -20,14 +21,20 @@ export default async function AdminRequestsPage() {
     createdAt: r.createdAt,
     updatedAt: r.updatedAt,
     status: r.status,
+    hospital: r.hospital,
   }));
 
   return (
     <main className="flex flex-col justify-center gap-8">
+      <RequestType />
       <RequestEntry entries={requests} subHref="requests" />
       <div className="relative self-center">
         <Map
-          coord={requests.map((r) => ({ lat: r.lat, lng: r.lng }))}
+          coord={requests.map((r) => ({
+            lat: r.lat,
+            lng: r.lng,
+            hospital: r.hospital,
+          }))}
           zoom={11}
         />
       </div>

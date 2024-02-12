@@ -33,7 +33,6 @@ export default async function StatusTimeline({ id }: { id: string }) {
           ...(requestDetails.timeline?.map(
             (t: any) =>
               `${t.status} at ${DayJS(t.at)
-                .tz("Asia/Kathmandu")
                 .format("YYYY MMM DD, ddd  hh:mm:ss A")}`,
           ) || []),
         ]}

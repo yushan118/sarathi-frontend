@@ -2,15 +2,17 @@
 
 import { useState } from "react";
 import { acceptRequest } from "./server-actions";
+import { hospitals } from "@/constants/hospitals";
 
-const hospitalsList = [
-  "Himal Hospital",
-  "Grande City Hospital",
-  "All Nepal Hospital",
-  "Janabhawana Hospital",
-];
+const hospitalsList = Object.keys(hospitals);
 
-export default function AcceptBtn({ id }: { id: string }) {
+export default function AcceptBtn({
+  id,
+  bookingContact,
+}: {
+  id: string;
+  bookingContact: string;
+}) {
   const [hospital, setHospital] = useState("");
 
   return (
@@ -18,7 +20,7 @@ export default function AcceptBtn({ id }: { id: string }) {
       className="flex flex-col items-center gap-2"
       onSubmit={async (e) => {
         e.preventDefault();
-        await acceptRequest(id, hospital);
+        await acceptRequest(id, hospital, bookingContact);
       }}
     >
       <select

@@ -12,24 +12,10 @@ export function NewsEntry(props: {
   date: Date;
 }) {
   return (
-    <div className="flex items-center justify-center gap-6">
-      <Image
-        src={props.image}
-        alt={props.title}
-        width={0}
-        height={0}
-        sizes={"100%"}
-        className="aspect-video h-auto w-[240px] rounded-2xl object-cover shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25),_0px_4px_4px_0px_rgba(0,0,0,0.25),_0px_4px_4px_0px_rgba(0,0,0,0.25)]"
-      />
-      <div className="text-sm">
-        <Link href="/news/1">
-          <h2 className="font-bold hover:underline">{props.title}</h2>
-        </Link>
-        <p className="font-light">{props.shortInfo}</p>
-        <p className="mt-2 text-xs font-semibold">
-          {props.date.toDateString()}
-        </p>
-      </div>
+    <div className="text-sm">
+      <h2 className="font-bold">{props.title}</h2>
+      <p className="font-light">{props.shortInfo}</p>
+      <p className="mt-2 text-xs font-semibold">{props.date.toDateString()}</p>
     </div>
   );
 }
@@ -41,7 +27,7 @@ function LatestNewsDiv() {
         <h1 className="text-2xl font-thin">Our Latest News</h1>
         <div className="block h-[6px] w-[90%] bg-[#FF5C00D4] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" />
       </div>
-      <div className="flex flex-col items-center gap-6">
+      <div className="flex flex-col gap-6">
         <Suspense
           fallback={
             <div className="flex items-center justify-center py-4">
@@ -70,7 +56,7 @@ function LatestNewsDiv() {
         >
           <LatestNews />
         </Suspense>
-        <Link href="/news">
+        <Link href="/news" className="mx-auto">
           <button className="w-max rounded-2xl bg-[#DC0000] px-7 py-1 text-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
             View More
           </button>
@@ -116,10 +102,14 @@ function NewsCoverImage() {
 }
 
 export default async function News() {
+  const bookingsList = await fetch(`${process.env.API_URL}/bookings/all`, {
+    cache: "no-cache",
+  }).then((res) => res.json());
+
   return (
     <div className="flex flex-col-reverse items-start justify-center gap-10 lg:flex-row">
       <div className="flex flex-col gap-6">
-        <Actions />
+        <Actions bookingsList={bookingsList} />
         <LatestNewsDiv />
       </div>
       <NewsCoverImage />

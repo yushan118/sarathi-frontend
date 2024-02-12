@@ -1,5 +1,6 @@
 "use server";
 
+import { getAuthenticatedAmbulanceUser } from "@/serverActions/auth";
 import { revalidateTag } from "next/cache";
 
 export async function approveRequest(id: string) {
@@ -17,7 +18,26 @@ export async function approveRequest(id: string) {
   revalidateTag("request-details");
 }
 
-export async function acceptRequest(id: string, hospital: string) {
+export async function acceptRequest(
+  id: string,
+  hospital: string,
+  bookingContact: string,
+) {
+  const ambulanceUser = await getAuthenticatedAmbulanceUser();
+
+  const res = await fetch("https://api.sparrowsms.com/v2/sms/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      token: "jMTnvj4bKtTTA6eeSfRm",
+      from: "TheAlert",
+      to: "9861292178",
+      text: `An ambulance will arrive to ${hospital}!\nAmbulance contact: ${ambulanceUser?.mobileNumber || ""}\nBooking contact: ${bookingContact}`,
+    }),
+  }).then(res => res.json());
+  console.log(res);
   await fetch(`${process.env.API_URL}/bookings/set-status`, {
     cache: "no-cache",
     method: "POST",

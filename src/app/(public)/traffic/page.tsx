@@ -8,9 +8,10 @@ export default async function TrafficPage() {
   const requestsList = await requestsListRes.json();
   const requests: IRequestEntry[] = requestsList.map((r: any) => ({
     id: r._id,
-    user: r.user.name,
+    user: r.user?.name,
     lat: r.lat,
     lng: r.lng,
+    hospital: r.hospital,
   }));
 
   return (
@@ -19,7 +20,7 @@ export default async function TrafficPage() {
         Current bookings traffic status:
       </h1>
       <Map
-        coord={requests.map((r) => ({ lat: r.lat, lng: r.lng }))}
+        coord={requests.map((r) => ({ lat: r.lat, lng: r.lng, hospital: r.hospital }))}
         zoom={11}
       />
     </div>

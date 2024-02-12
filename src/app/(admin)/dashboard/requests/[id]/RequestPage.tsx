@@ -10,6 +10,7 @@ import AcceptBtn from "./AcceptBtn";
 import OnTheWayBtn from "./OnTheWayBtn";
 import PickedBtn from "./PickedBtn";
 import ArrivedBtn from "./ArrivedBtn";
+import SurvivalRate from "./SurvivalRate";
 
 function DetailsEntry({
   details1,
@@ -72,7 +73,7 @@ export default async function RequestPage({
 
   return (
     <main className="flex flex-col justify-center gap-8">
-      <Link href="." className="flex w-max items-center gap-1 hover:underline">
+      <Link href=".." className="flex w-max items-center gap-1 hover:underline">
         <IoIosArrowBack />
         Back
       </Link>
@@ -123,12 +124,22 @@ export default async function RequestPage({
         )}
       </div>
 
+      <SurvivalRate
+        id={id}
+        initialSurvivalRate={requestDetails.survival_rate}
+      />
+
       {viewer == "Admin" &&
         requestDetails.status == bookingStatuses[0].value && (
           <ApproveBtn id={id} />
         )}
       {viewer == "Ambulance" &&
-        requestDetails.status == "Approved by admin" && <AcceptBtn id={id} />}
+        requestDetails.status == "Approved by admin" && (
+          <AcceptBtn
+            id={id}
+            bookingContact={requestDetails.user.mobile_number}
+          />
+        )}
       {viewer == "Ambulance" &&
         requestDetails.status == "Accepted by ambulance" && (
           <OnTheWayBtn id={id} />
@@ -144,7 +155,13 @@ export default async function RequestPage({
 
       <div className="self-center">
         <Map
-          coord={[{ lat: requestDetails.lat, lng: requestDetails.lng }]}
+          coord={[
+            {
+              lat: requestDetails.lat,
+              lng: requestDetails.lng,
+              hospital: requestDetails.hospital || undefined,
+            },
+          ]}
           zoom={13}
         />
       </div>

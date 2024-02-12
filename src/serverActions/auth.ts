@@ -191,7 +191,7 @@ export async function getAuthenticatedAmbulanceUser(): Promise<
     return {
       id: currentAmbulanceUser._id,
       name: currentAmbulanceUser.name,
-      mobileNumber: currentAmbulanceUser.mobileNumber,
+      mobileNumber: currentAmbulanceUser.mobile_number,
     };
   } catch (error) {
     return undefined;
