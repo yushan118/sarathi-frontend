@@ -1,6 +1,5 @@
 import { io } from "socket.io-client";
 
-export const socket = io("http://sarathiii.com:8080", {
+export const socket = io(process.env.SOCKET_API_URL!, {
   autoConnect: false,
-  secure: false,
 });
