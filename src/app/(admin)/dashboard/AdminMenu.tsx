@@ -54,13 +54,6 @@ export default function AdminMenu({ className }: { className?: string }) {
         ))}
       </div>
 
-      <div className="flex flex-col items-center justify-center gap-5 rounded-2xl bg-white p-7">
-        <Image src={EmergencyCall} alt="Emergency Call" width={100} />
-        <p className="text-[#263156]">Have Emergency?</p>
-        <button className="rounded-full bg-[#FF8057] px-8 py-2 text-white">
-          Book Now
-        </button>
-      </div>
       <LogoutButton />
     </header>
   );
