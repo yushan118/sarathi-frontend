@@ -1,6 +1,6 @@
 import Image from "next/image";
 import NoImage from "@/../public/images/no-image.jpg";
-import LatestNewsCoverImage from "@/../public/images-temp/latest-news/cover.jpeg";
+import LatestNewsCoverImage from "@/../public/images/ambulance_scene_low.gif";
 import Actions from "./Actions";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -9,13 +9,11 @@ export function NewsEntry(props: {
   image: string;
   title: string;
   shortInfo: string;
-  date: Date;
 }) {
   return (
     <div className="text-sm">
       <h2 className="font-bold">{props.title}</h2>
       <p className="font-light">{props.shortInfo}</p>
-      <p className="mt-2 text-xs font-semibold">{props.date.toDateString()}</p>
     </div>
   );
 }
@@ -67,15 +65,15 @@ function LatestNewsDiv() {
 }
 
 async function LatestNews() {
-  const newsRes = await fetch("https://202.53.1.154/news");
+  const newsRes = await fetch("https://aponekhabar.com/api/v2/auth/news/tourism");
   let newsJson: {
     _id: string;
     title: string;
     description: string;
-    pub_date: string;
+    src: string;
   }[];
   try {
-    newsJson = await newsRes.json().then((j) => j.news);
+    newsJson = await newsRes.json().then((j) => j.map((e: any, idx: number) => ({ _id: idx, title: e.titletaja, description: e.parataja, src: e.imagetaja })));
   } catch {
     return <p>Could not load the news</p>;
   }
@@ -88,7 +86,6 @@ async function LatestNews() {
         image={NoImage.src}
         title={news.title}
         shortInfo={news.description}
-        date={new Date(news.pub_date)}
       />
     ));
 }
@@ -96,7 +93,7 @@ async function LatestNews() {
 function NewsCoverImage() {
   return (
     <div className="mt-10 basis-[60%]">
-      <Image src={LatestNewsCoverImage} alt="News Cover" />
+      <Image src={LatestNewsCoverImage} alt="News Cover" className="ml-auto" />
     </div>
   );
 }

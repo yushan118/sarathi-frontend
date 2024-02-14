@@ -3,15 +3,15 @@ import { NewsEntry } from "@/components/home/News";
 import { Suspense } from "react";
 
 async function List() {
-  const newsRes = await fetch("https://202.53.1.154/news");
+  const newsRes = await fetch("https://aponekhabar.com/api/v2/auth/news/tourism");
   let newsJson: {
     _id: string;
     title: string;
     description: string;
-    pub_date: string;
+    src: string;
   }[];
   try {
-    newsJson = await newsRes.json().then((j) => j.news);
+    newsJson = await newsRes.json().then((j) => j.map((e: any, idx: number) => ({ _id: idx, title: e.titletaja, description: e.parataja, src: e.imagetaja })));
   } catch {
     return <p>Could not load the news</p>;
   }
@@ -22,7 +22,6 @@ async function List() {
       image={NoImage.src}
       title={news.title}
       shortInfo={news.description}
-      date={new Date(news.pub_date)}
     />
   ));
 }
