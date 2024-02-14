@@ -4,9 +4,8 @@ import { BiSolidHelpCircle } from "react-icons/bi";
 import { FaUser } from "react-icons/fa6";
 import { FaAmbulance } from "react-icons/fa";
 
-import Image from "next/image";
-import MapLiveLocation from "@/../public/images-temp/map-location.png";
 import { cookies } from "next/headers";
+import TrafficPage from "@/app/(public)/traffic/page";
 
 export default async function AdminDashboardPage() {
   const cookieStore = cookies();
@@ -55,6 +54,7 @@ export default async function AdminDashboardPage() {
           className="w-[300px]"
         />
       </div>
+      <TrafficPage />
     </main>
   );
 }
