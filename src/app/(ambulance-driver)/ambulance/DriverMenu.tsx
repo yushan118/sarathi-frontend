@@ -1,5 +1,6 @@
 "use client";
 
+// Importing necessary components and libraries
 import Title from "@/components/Title";
 import { twMerge } from "tailwind-merge";
 import Image from "next/image";
@@ -14,6 +15,8 @@ import { useContext } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
+
+// Array of menu items with their details
 const menuItems: IMenuEntry[] = [
   {
     title: "Request Details",
@@ -27,10 +30,14 @@ const menuItems: IMenuEntry[] = [
   },
 ];
 
+// Functional component for the Driver Menu
 export default function DriverMenu({ className }: { className?: string }) {
+
+  // Accessing the context and router
   const ambulanceDriverContext = useContext(AmbulanceAuthContext);
   const router = useRouter();
 
+  // Rendering the component
   return (
     <header
       className={twMerge(
@@ -38,6 +45,7 @@ export default function DriverMenu({ className }: { className?: string }) {
         className,
       )}
     >
+      {/* Logo and title section */}
       <div className="flex flex-col items-center">
         <Title className="text-3xl lg:text-5xl" />
         <Image src={Ambulance} alt="Ambulance" width={75} />
@@ -50,7 +58,8 @@ export default function DriverMenu({ className }: { className?: string }) {
           <MenuEntry key={item.title} entry={item} />
         ))}
       </div>
-
+      
+      {/* Logout button */}
       <button
         className="rounded-full bg-[#FF5757] px-8 py-2 text-xl font-bold text-white"
         onClick={async () => {

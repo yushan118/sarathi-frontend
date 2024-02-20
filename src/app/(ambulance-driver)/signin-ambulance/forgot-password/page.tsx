@@ -1,22 +1,35 @@
 "use client";
 
+// Import necessary dependencies and utilities
 import { useAction } from "next-safe-action/hook";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { changePassword } from "./server-actions";
 
+// Define the ForgotPasswordPage component
 export default function ForgotPasswordPage() {
+
+  // Define possible steps in the password recovery process
   type Step = "phone" | "otp" | "new-password";
+
+  // Initialize state for the current step
   const [currentStep, setCurrentStep] = useState<Step>("phone");
 
+  // Initialize state for phone number and password
   const [number, setNumber] = useState("");
   const [password, setPassword] = useState("");
 
+  // Get Next.js router
   const router = useRouter();
 
+  // Use the useAction hook to execute the changePassword action
   const { execute, status } = useAction(changePassword, {
+
+    // Define what happens on successful execution of the action
     onSuccess: () => {
+
+      // Show a success toast and navigate to the login page
       toast.success(
         "Password changed successfully! You may login with new credentials now",
       );
@@ -24,6 +37,7 @@ export default function ForgotPasswordPage() {
     },
   });
 
+  // Render the ForgotPasswordPage component
   return (
     <main className="flex min-h-screen items-center justify-center">
       <div className="bg-gray-100 p-8">

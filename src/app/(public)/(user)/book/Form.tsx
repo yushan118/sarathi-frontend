@@ -1,5 +1,6 @@
 "use client";
 
+// Importing necessary libraries and components
 import { toast } from "react-toastify";
 import { addBooking } from "./serverActions";
 import { useRouter } from "next/navigation";
@@ -10,14 +11,19 @@ import "leaflet/dist/leaflet.css";
 import MarkerIcon from "leaflet/dist/images/marker-icon.png";
 import L from "leaflet";
 
+
+// Functional component for the AddBookingForm
 export default function AddBookingForm({
   defaultContactNumber,
 }: {
   defaultContactNumber: string;
 }) {
+
+  // Initializing necessary hooks and state
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
+  // Retrieving geolocation information using the useGeolocated hook
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
     useGeolocated({
       positionOptions: {
@@ -26,6 +32,7 @@ export default function AddBookingForm({
       userDecisionTimeout: 5000,
     });
 
+    // Function to display geolocation information based on availability and enabled status
   function GeolocationInformation() {
     if (!isGeolocationAvailable)
       return <p>Your browser does not support Geolocation</p>;
@@ -33,6 +40,7 @@ export default function AddBookingForm({
     return null;
   }
 
+  // State and effect for updating the marker's coordinates based on geolocation
   const [markerCoord, setMarkerCoord] = useState<{ lat: number; lng: number }>({
     lat: 0,
     lng: 0,
@@ -44,6 +52,7 @@ export default function AddBookingForm({
     setMarkerCoord({ lat: coords?.latitude, lng: coords?.longitude });
   }, [coords]);
 
+  // Component for a draggable marker on the map
   function DraggableMarker() {
     const markerRef = useRef<L.Marker>(null);
     const eventHandlers = {
@@ -69,24 +78,34 @@ export default function AddBookingForm({
     );
   }
 
+  // Function to handle form submission
   async function handleFormSubmit(formData: FormData) {
     const contact_number = formData.get("contact_number") as string;
 
+    // Set loading state to true
     setIsLoading(true);
+
+    // Attempt to add a booking using the provided function
     const addBookingResponse = await addBooking(
       contact_number,
       markerCoord.lat,
       markerCoord.lng,
     );
+
+    // Set loading state to false
     setIsLoading(false);
+
+    // Display toast message if the booking was not successful
     if (!addBookingResponse.success) {
       toast(addBookingResponse.message, { type: "error" });
       return;
     }
 
+    // Redirect to the ambulance status page with the booking ID
     router.push(`/ambulance-status/${addBookingResponse.id}`);
   }
 
+  // Rendering the form with input fields, geolocation information, and map
   return (
     <form
       className="flex flex-col items-center justify-center gap-4"
@@ -105,6 +124,8 @@ export default function AddBookingForm({
       <div className="flex flex-col items-center justify-center">
         <p className="font-bold">Location:</p>
         <GeolocationInformation />
+
+        {/* Display the map if coordinates are available */}
         {coords && (
           <MapContainer
             center={{ lat: coords.latitude, lng: coords.longitude }}
@@ -120,10 +141,14 @@ export default function AddBookingForm({
           </MapContainer>
         )}
       </div>
+
+      {/* Button to submit the form */}
       <button
         className="my-4 flex flex-col items-center justify-center gap-1 rounded-3xl bg-[#DB0402] px-10 py-4 font-extrabold text-white disabled:opacity-30"
         disabled={isLoading}
       >
+
+        {/* Loading spinner animation if form is submitting */}
         {isLoading && (
           <svg
             className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"

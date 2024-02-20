@@ -1,9 +1,13 @@
+// Importing necessary constants and modules
 import { bookingStatuses } from "@/constants/booking";
 import { cookies } from "next/headers";
 
+// Functional component for each step entry in the status
 function StepEntry({ info, checked }: { info: string; checked?: boolean }) {
   return (
     <div className="flex items-center gap-2">
+
+      {/* Displaying a checkbox if 'checked' prop is true */}
       <div className="flex h-[26px] w-[26px] items-center justify-center bg-white">
         {checked && (
           <svg
@@ -20,13 +24,20 @@ function StepEntry({ info, checked }: { info: string; checked?: boolean }) {
           </svg>
         )}
       </div>
+
+      {/* Displaying the information */}
       <p>{info}</p>
     </div>
   );
 }
 
+// Main component for displaying status steps
 export default async function StatusSteps({ id }: { id: string }) {
+
+  // Getting cookies from next/headers
   const cookieStore = cookies();
+
+  // Fetching booking details from the API
   const requestDetails = await fetch(`${process.env.API_URL}/bookings/${id}`, {
     cache: "no-cache",
     next: {
@@ -37,13 +48,17 @@ export default async function StatusSteps({ id }: { id: string }) {
     },
   }).then((res) => res.json());
 
+  // Finding the index of the current booking status
   const currentBookingStatusIdx = bookingStatuses.findIndex(
     (s) => s.value == requestDetails.status,
   );
 
+  // Displaying status steps
   return (
     <div className="flex flex-col gap-2 bg-[#DFDBDB] p-4">
       {bookingStatuses.map((s, idx) => (
+
+        // Rendering StepEntry component for each status
         <StepEntry
           key={s.id}
           info={s.value}

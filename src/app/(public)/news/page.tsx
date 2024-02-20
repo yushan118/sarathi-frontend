@@ -1,9 +1,13 @@
+// Importing NoImage placeholder image and NewsEntry component
 import NoImage from "@/../public/images/no-image.jpg";
 import { NewsEntry } from "@/components/home/News";
+
+// Importing Suspense from React for code-splitting
 import { Suspense } from "react";
 
+// Async function to fetch and display a list of news entries
 async function List() {
-  const newsRes = await fetch("https://aponekhabar.com/api/v2/auth/news/tourism");
+  const newsRes = await fetch("https://aponekhabar.com/api/v2/auth/news/tourism"); // Fetching news data from the API
   let newsJson: {
     _id: string;
     title: string;
@@ -11,26 +15,34 @@ async function List() {
     src: string;
   }[];
   try {
+    // Parsing the JSON response and mapping it to a new format
     newsJson = await newsRes.json().then((j) => j.map((e: any, idx: number) => ({ _id: idx, title: e.titletaja, description: e.parataja, src: e.imagetaja })));
   } catch {
+
+    // Displaying an error message if there is an issue fetching or parsing news data
     return <p>Could not load the news</p>;
   }
 
+
+// Mapping the news entries to NewsEntry components
   return newsJson.map((news) => (
     <NewsEntry
       key={news._id}
-      image={NoImage.src}
+      image={NoImage.src} // Using the NoImage placeholder for news entries without an image
       title={news.title}
       shortInfo={news.description}
     />
   ));
 }
 
+// Functional component for the NewsPage
 export default function NewsPage() {
   return (
     <main className="container lg:py-4">
       <h1 className="mb-4 text-4xl font-semibold">All News</h1>
       <div className="flex flex-col items-start gap-6">
+
+        {/* Using Suspense for code-splitting and showing a loading spinner while fetching data */}
         <Suspense
           fallback={
             <div className="flex items-center justify-center py-4">
@@ -57,6 +69,8 @@ export default function NewsPage() {
             </div>
           }
         >
+
+          {/* Rendering the List component within Suspense */}
           <List />
         </Suspense>
       </div>

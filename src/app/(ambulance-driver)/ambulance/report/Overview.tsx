@@ -1,3 +1,4 @@
+// Importing necessary modules and components
 import Image, { StaticImageData } from "next/image";
 import AcceptIcon from "@/../public/icons/accept.png";
 import AcceptedIcon from "@/../public/icons/accepte.png";
@@ -5,6 +6,7 @@ import SurvivalIcon from "@/../public/icons/survival.png";
 import AmbulanceIcon from "@/../public/images/ambulance.png";
 import { twMerge } from "tailwind-merge";
 
+// Array defining different booking statuses
 const bookingStatus = [
   "Waiting to be approved by admin",
   "Approved by admin",
@@ -14,6 +16,7 @@ const bookingStatus = [
   "Arrived on hospital",
 ];
 
+// Entry component for displaying booking-related information
 function Entry({
   className,
   value,
@@ -32,8 +35,11 @@ function Entry({
         className,
       )}
     >
+      {/* Displaying the icon image */}
       <Image src={icon} height={40} width={40} alt="Accepted Icon" />
       <div className="text-white">
+
+        {/* Displaying the value, information, and a decorative SVG background */}
         <p className="text-2xl font-bold">{value}</p>
         <p className="text-sm font-semibold uppercase">{info}</p>
         <svg
@@ -52,9 +58,12 @@ function Entry({
   );
 }
 
+// Overview component for displaying different entries related to booking status
 export default function Overview({ bookingsList }: { bookingsList: any }) {
   return (
     <div className="mb-8 flex gap-6">
+
+      {/* Entry for displaying rides accepted */}
       <Entry
         className="bg-gradient-315 from-[#47c5f4] to-[#6791d9] to-[74%]"
         value={bookingsList.reduce(
@@ -65,6 +74,8 @@ export default function Overview({ bookingsList }: { bookingsList: any }) {
         info="Rides accepted"
         icon={AcceptIcon}
       />
+
+      {/* Entry for displaying rides completed */}
       <Entry
         className="bg-gradient-315 from-[#eb4786] to-[#b854a6]"
         value={bookingsList.reduce(
@@ -75,6 +86,8 @@ export default function Overview({ bookingsList }: { bookingsList: any }) {
         info="Rides completed"
         icon={AcceptedIcon}
       />
+
+      {/* Entry for displaying total survival */}
       <Entry
         className="bg-gradient-315 from-[#875fc0] to-[#5346ba]"
         value={bookingsList.reduce(
@@ -85,6 +98,8 @@ export default function Overview({ bookingsList }: { bookingsList: any }) {
         info="Total survival"
         icon={SurvivalIcon}
       />
+
+      {/* Entry for displaying total rides */}
       <Entry
         className="bg-gradient-315 from-[#3358cb] to-[#1197e6]"
         value={bookingStatus.length}

@@ -1,15 +1,25 @@
+// Importing necessary functions and components
 import { redirectWithCurrentCallbackUrl } from "@/helper/auth";
 import { getAuthenticatedUser } from "@/serverActions/auth";
 import AddBookingForm from "./Form";
 
+
+// Main functional component for booking an ambulance
 export default async function BookAnAmbulance() {
+
+  // Retrieve the authenticated user
   const user = await getAuthenticatedUser();
+
+  // If no user is authenticated, redirect to the signin page
   if (!user) {
     return redirectWithCurrentCallbackUrl("/signin");
   }
 
+  // Rendering the main component for booking an ambulance
   return (
     <div className="m-auto flex max-w-[600px] flex-col items-center justify-center gap-4 rounded-3xl bg-[#E2DEDE] px-12 py-4">
+
+      {/* SVG illustration */}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="100"
@@ -17,6 +27,8 @@ export default async function BookAnAmbulance() {
         viewBox="0 0 100 100"
         fill="none"
       >
+
+        {/* ... (SVG paths for illustration) ... */}
         <path
           d="M11.9113 85.3947C12.2813 85.0603 12.7611 84.873 13.2599 84.8684H86.1481C86.8316 84.8678 87.4899 85.1265 87.9902 85.5921L98.0593 94.6053C98.454 94.9671 99.0461 95.8256 99.0461 96.3849C99.0461 97.0099 98.3882 98.0954 96.8224 98.5987L2.63166 98.4868C1.16784 97.171 1.25666 96.3816 1.25666 95.4276C1.25666 94.7697 1.95731 94.1118 2.45073 93.6184L11.9113 85.3947Z"
           fill="#E2E4F1"
@@ -42,11 +54,17 @@ export default async function BookAnAmbulance() {
           fill="#445665"
         />
       </svg>
+
+      {/* Heading for the booking section */}
       <p className="text-3xl font-extrabold">Book An Ambulance</p>
+
+      {/* Description for the booking section */}
       <p className="text-center font-bold">
         One click and Ambulance comes right in front of the door for your
         serivce.
       </p>
+
+       {/* Adding the booking form with the default contact number from the authenticated user */}
       <AddBookingForm defaultContactNumber={user.mobileNumber} />
     </div>
   );

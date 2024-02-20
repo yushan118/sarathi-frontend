@@ -1,3 +1,4 @@
+// Import necessary dependencies and components
 "use client";
 
 import { AmbulanceAuthContext } from "@/components/InitializeAmbulanceAuthStore";
@@ -7,33 +8,51 @@ import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 
+
+// Define the SignIn component
 export default function SignIn() {
+
+  // Initialize state for loading indicator
   const [isLoading, setIsLoading] = useState(false);
 
+  // Get Next.js router and Ambulance authentication context
   const router = useRouter();
   const ambulanceUserContext = useContext(AmbulanceAuthContext);
 
+  // Define the function to handle form submission
   async function handleFormSubmission(formData: FormData) {
+
+    // Extract mobile number and password from form data
     const mobile_number = formData.get("mobile_number") as string;
     const password = formData.get("password") as string;
 
+    // Set loading state to true before making the login request
     setIsLoading(true);
+
+    // Make the login request to the server
     const loginResponse = await loginAmbulance(mobile_number, password);
+
+    // Set loading state back to false after the request is complete
     setIsLoading(false);
 
+    // Show a toast notification based on the login response
     toast(loginResponse.message, {
       type: loginResponse.success ? "success" : "error",
       position: "bottom-right",
     });
 
+    // If login is successful, update the ambulance user context and navigate to the ambulance page
     if (loginResponse.success) {
       await ambulanceUserContext.update();
       router.replace("/ambulance");
     }
   }
 
+   // Render the SignIn component
   return (
     <main className="container flex flex-grow flex-col items-center justify-center py-8">
+
+      {/* SignIn form */}
       <form
         className="flex w-max flex-col gap-2 rounded-md bg-gray-100 p-8"
         action={handleFormSubmission}
@@ -41,12 +60,16 @@ export default function SignIn() {
         <p className="mb-2 text-center text-xl font-semibold">
           Ambulance Login
         </p>
+
+        {/* Input field for mobile number */}
         <input
           placeholder="Mobile number"
           name="mobile_number"
           required
           className="border border-gray-400 p-1 outline-none"
         />
+
+        {/* Input field for password */}
         <input
           type="password"
           placeholder="Password"
@@ -54,14 +77,15 @@ export default function SignIn() {
           required
           className="border border-gray-400 p-1 outline-none"
         />
-
+        {/* Forgot password link */}
         <Link
           href="/signin-ambulance/forgot-password"
           className="self-start text-xs"
         >
           Forgot password?
         </Link>
-
+        
+        {/* Loading indicator or Sign in button */}
         {isLoading ? (
           <svg
             className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
