@@ -8,7 +8,7 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { deleteDriver, editDriver } from "./server-actions";
-
+import { twMerge } from "tailwind-merge";
 
 // Component for editing an ambulance driver
 export default function DriverEdit({
@@ -20,7 +20,6 @@ export default function DriverEdit({
   name: string;
   mobile_number: string;
 }) {
-
   // State to manage the expanded/collapsed view
   const [expand, setExpand] = useState(false);
 
@@ -63,11 +62,16 @@ export default function DriverEdit({
 
   return (
     <>
-
-    {/* Row displaying basic driver information, clickable to expand/collapse */}
-      <tr className={"cursor-pointer"} onClick={() => setExpand((cur) => !cur)}>
-        <td className="pr-8">{name}</td>
-        <td>{mobile_number}</td>
+      {/* Row displaying basic driver information, clickable to expand/collapse */}
+      <tr
+        className={twMerge(
+          "cursor-pointer font-medium dark:border-[#E7E8EA]",
+          !expand && "border-b-2",
+        )}
+        onClick={() => setExpand((cur) => !cur)}
+      >
+        <td className="p-4">{name}</td>
+        <td className="p-4">{mobile_number}</td>
       </tr>
 
       {/* Expanded row with a form for editing the driver details */}
@@ -75,15 +79,13 @@ export default function DriverEdit({
         <tr>
           <td colSpan={3}>
             <form
-              className="mb-4 mt-2 flex w-[200px] flex-col gap-2"
+              className="mb-4 mt-2 flex w-[200px] flex-col gap-2 mx-auto"
               onSubmit={handleSubmit((data) => {
-
                 // Executing the editDriver action when the form is submitted
                 execute({ id: _id, ...data });
               })}
             >
-
-               {/* React Hook Form Controller for the 'name' input field */}
+              {/* React Hook Form Controller for the 'name' input field */}
               <Controller
                 control={control}
                 name="name"
@@ -125,7 +127,6 @@ export default function DriverEdit({
 
               {/* Grid for buttons: Update and Delete */}
               <div className="grid grid-cols-2 gap-2">
-
                 {/* Update button */}
                 <button
                   disabled={status == "executing"}

@@ -50,7 +50,7 @@ export default function UserStats({ bookingsList }: { bookingsList: any }) {
   const userContext = useContext(AuthContext);
 
   const userBookings = bookingsList.filter(
-    (b: any) => b.user._id == userContext.user?.id,
+    (b: any) => b.user?._id == userContext.user?.id,
   );
 
   if (!userContext.user) return null;

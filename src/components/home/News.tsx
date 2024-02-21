@@ -93,7 +93,7 @@ async function LatestNews() {
 function NewsCoverImage() {
   return (
     <div className="mt-10 basis-[60%]">
-      <Image src={LatestNewsCoverImage} alt="News Cover" className="ml-auto" />
+      <Image src={LatestNewsCoverImage} alt="News Cover" className="ml-auto w-full" />
     </div>
   );
 }

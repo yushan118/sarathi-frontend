@@ -70,12 +70,12 @@ export default function UserEdit({
 
       {/* Displaying basic user details */}
       <tr
-        className={twMerge("cursor-pointer", is_suspended && "text-red-500")}
+        className={twMerge("cursor-pointer font-medium dark:border-[#E7E8EA]", is_suspended && "text-red-500", !expand && "border-b-2")}
         onClick={() => setExpand((cur) => !cur)}
       >
-        <td className="pr-8">{name}</td>
-        <td>{mobile_number}</td>
-        <td>
+        <td className="p-4">{name}</td>
+        <td className="p-4">{mobile_number}</td>
+        <td className="p-4">
 
           {/* Link to view the user's profile */}
           <Link
@@ -94,13 +94,13 @@ export default function UserEdit({
 
             {/* Form for editing user details */}
             <form
-              className="mb-4 mt-2 flex w-[200px] flex-col gap-2"
+              className="mb-4 mt-2 flex w-[200px] flex-col gap-2 mx-auto"
               onSubmit={handleSubmit((data) => {
                 execute({ id: _id, ...data });
               })}
             >
 
-              {/* Controller for handling name input */} 7
+              {/* Controller for handling name input */}
               <Controller
                 control={control}
                 name="name"
