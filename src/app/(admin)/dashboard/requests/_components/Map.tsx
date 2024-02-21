@@ -1,5 +1,6 @@
 "use client";
 
+// Importing necessary React and Leaflet components, icons, and utilities
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import MarkerIcon from "leaflet/dist/images/marker-icon.png";
 import HospitalMarkerIcon from "@/../public/icons/hospital-marker.png";
@@ -14,6 +15,8 @@ import { twMerge } from "tailwind-merge";
 require("leaflet-routing-machine");
 require("lrm-graphhopper");
 
+
+// Array of random colors for route lines
 const randomColors = [
   "red",
   "yellow",
@@ -22,6 +25,7 @@ const randomColors = [
   "cyan",
 ];
 
+// React component for displaying a map with markers and routes
 export default function Map({
   coord,
   zoom,
@@ -31,13 +35,19 @@ export default function Map({
   zoom: number;
   centerAtCity?: boolean;
 }) {
+
+  // Leaflet icons for regular and hospital markers
   const marker = L.icon({ iconUrl: MarkerIcon.src });
   const hospitalMarker = L.icon({ iconUrl: HospitalMarkerIcon.src });
 
+  // Refs for map and route controls
   const mapRef = useRef<L.Map>(null);
   const routeControl = useRef<L.Routing.Control[]>([]);
 
+  // State to toggle displaying routes
   const [showRoutes, setShowRoutes] = useState(false);
+
+  // useEffect for handling route control updates
   useEffect(() => {
     if (showRoutes) {
       if (!mapRef.current) return;
@@ -83,12 +93,16 @@ export default function Map({
     }
   }, [showRoutes]);
 
+  // Render a message if no coordinates are provided
   if (coord.length == 0) {
     return <p>No requests available</p>;
   }
 
+  // Render the map with markers and routes
   return (
     <>
+
+    {/* Buttons to toggle marker and route visibility */}
       <div className="flex w-[350px]">
         <button
           onClick={() => setShowRoutes(false)}
@@ -127,6 +141,8 @@ export default function Map({
           />
         </button>
       </div>
+
+      {/* MapContainer component for displaying the map */}
       <MapContainer
         ref={mapRef}
         center={
@@ -138,10 +154,13 @@ export default function Map({
         scrollWheelZoom={false}
         className="h-[300px] w-[600px]"
       >
+        {/* TileLayer for the map */}
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+
+        {/* Rendering markers based on provided coordinates */} 
         {coord.map((c) => (
           <Marker
             key={`${c.lat}-${c.lng}`}
@@ -152,6 +171,8 @@ export default function Map({
             icon={marker}
           />
         ))}
+
+        {/* Rendering hospital markers if showRoutes is true */}  
         {showRoutes &&
           coord
             .filter((c) => !!c.hospital)
