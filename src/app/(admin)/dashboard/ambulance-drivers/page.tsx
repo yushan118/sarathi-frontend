@@ -23,13 +23,14 @@ export default async function AmbulanceDriversPage() {
       <CreateDriver />
 
       {/* Table displaying the list of ambulance drivers */}
-      <table className="border-2 border-[#E7E8EA] text-left font-light">
+      <table className="border-2 border-[#E7E8EA] text-left font-light w-full">
 
         {/* Table header with columns: Name, Mobile Number */}
         <thead className="border-b-2 font-medium dark:border-[#E7E8EA]">
           <tr>
             <th className="p-4">Name</th>
             <th className="p-4">Mobile Number</th>
+            <th className="p-4">Actions</th>
           </tr>
         </thead>
 

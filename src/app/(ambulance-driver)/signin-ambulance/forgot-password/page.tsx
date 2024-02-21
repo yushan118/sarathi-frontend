@@ -5,30 +5,28 @@ import { useAction } from "next-safe-action/hook";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { changePassword } from "./server-actions";
+import { changePassword, sendOTP } from "./server-actions";
 
-// Define the ForgotPasswordPage component
-export default function ForgotPasswordPage() {
-
+// Define the ForgotPasswordForm component
+function ForgotPasswordForm({ randomOTP }: { randomOTP: string }) {
   // Define possible steps in the password recovery process
   type Step = "phone" | "otp" | "new-password";
 
   // Initialize state for the current step
   const [currentStep, setCurrentStep] = useState<Step>("phone");
 
-  // Initialize state for phone number and password
+  // Initialize state for phone number, password and OTP
   const [number, setNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("");
 
   // Get Next.js router
   const router = useRouter();
 
   // Use the useAction hook to execute the changePassword action
   const { execute, status } = useAction(changePassword, {
-
     // Define what happens on successful execution of the action
     onSuccess: () => {
-
       // Show a success toast and navigate to the login page
       toast.success(
         "Password changed successfully! You may login with new credentials now",
@@ -37,7 +35,9 @@ export default function ForgotPasswordPage() {
     },
   });
 
-  // Render the ForgotPasswordPage component
+  const { execute: executeOTP } = useAction(sendOTP);
+
+  // Render the ForgotPasswordForm component
   return (
     <main className="flex min-h-screen items-center justify-center">
       <div className="bg-gray-100 p-8">
@@ -55,7 +55,10 @@ export default function ForgotPasswordPage() {
             </div>
             <button
               className="rounded-md border border-gray-200 p-2 outline-none hover:bg-gray-200"
-              onClick={() => setCurrentStep("otp")}
+              onClick={() => {
+                setCurrentStep("otp");
+                executeOTP({ otp: randomOTP, mobile_number: number });
+              }}
             >
               Send OTP
             </button>
@@ -69,12 +72,20 @@ export default function ForgotPasswordPage() {
               <p>Enter the OTP sent to your number:</p>
               <input
                 type="text"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
                 className="border border-gray-200 p-2 outline-none"
               />
             </div>
             <button
               className="rounded-md border border-gray-200 p-2 outline-none hover:bg-gray-200"
-              onClick={() => setCurrentStep("new-password")}
+              onClick={() => {
+                if (otp == randomOTP) {
+                  setCurrentStep("new-password");
+                } else {
+                  toast.error("Invalid OTP");
+                }
+              }}
             >
               Verify
             </button>
@@ -105,4 +116,11 @@ export default function ForgotPasswordPage() {
       </div>
     </main>
   );
+}
+
+// Define the ForgotPasswordPage component
+export default function ForgotPasswordPage() {
+  const randomOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+  return <ForgotPasswordForm randomOTP={randomOTP} />;
 }

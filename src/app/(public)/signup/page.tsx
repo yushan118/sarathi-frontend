@@ -42,7 +42,6 @@ function Form({ randomOTP }: { randomOTP: string }) {
   const { execute: executeOTP } = useAction(sendOTP);
 
   const onSubmit: SubmitHandler<z.infer<typeof signupSchema>> = (data) => {
-    console.log(">>>> OTP:", randomOTP);
     executeOTP({ otp: randomOTP, mobile_number: data.mobile_number });
     setShowOTPPopup(true);
   };

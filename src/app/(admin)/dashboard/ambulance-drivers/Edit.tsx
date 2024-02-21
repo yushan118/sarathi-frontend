@@ -65,13 +65,22 @@ export default function DriverEdit({
       {/* Row displaying basic driver information, clickable to expand/collapse */}
       <tr
         className={twMerge(
-          "cursor-pointer font-medium dark:border-[#E7E8EA]",
+          "font-medium dark:border-[#E7E8EA]",
           !expand && "border-b-2",
         )}
-        onClick={() => setExpand((cur) => !cur)}
       >
         <td className="p-4">{name}</td>
         <td className="p-4">{mobile_number}</td>
+        <td className="py-4">
+          <button type="button" onClick={() => setExpand((cur) => !cur)}>
+            Edit profile
+          </button>
+        </td>
+        <td className="py-4">
+          <button type="button" onClick={() => executeDelete({ id: _id })}>
+            Delete profile
+          </button>
+        </td>
       </tr>
 
       {/* Expanded row with a form for editing the driver details */}
@@ -79,7 +88,7 @@ export default function DriverEdit({
         <tr>
           <td colSpan={3}>
             <form
-              className="mb-4 mt-2 flex w-[200px] flex-col gap-2 mx-auto"
+              className="mx-auto mb-4 mt-2 flex w-[200px] flex-col gap-2"
               onSubmit={handleSubmit((data) => {
                 // Executing the editDriver action when the form is submitted
                 execute({ id: _id, ...data });

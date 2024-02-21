@@ -29,3 +29,23 @@ export const changePassword = action(
     });
   },
 );
+
+export const sendOTP = action(
+  z.object({ otp: z.string(), mobile_number: z.string() }),
+  async (input) => {
+    await fetch("https://api.sparrowsms.com/v2/sms/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        token: "jMTnvj4bKtTTA6eeSfRm",
+        from: "TheAlert",
+        to: input.mobile_number,
+        text:
+          "Hello from sarathiii.com!\n\nPlease enter the following OTP to reset your password: " +
+          input.otp,
+      }),
+    });
+  },
+);
