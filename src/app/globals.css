@@ -14,3 +14,9 @@
 .leaflet-routing-container {
   display: none;
 }
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1400px;
+  }
+}
